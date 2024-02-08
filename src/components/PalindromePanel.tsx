@@ -69,42 +69,35 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height 
       palindromeBody?.appendChild(container);
     }
     else {
-      palindromeBody?.firstElementChild?.remove();
+      palindromeBody?.removeChild(palindromeBody.firstElementChild);
       palindromeBody?.appendChild(container);
     }
   }
 
-  const getInnerHeightAndWidth = () => {
-    const mult1 = Math.floor(window.innerWidth / width);
-    const mult2 = Math.floor(window.innerHeight / height);
-    const innerHeight = Math.max(window.innerHeight / Math.max(mult1, mult2), height);
-    const innerWidth = Math.max(window.innerWidth / Math.max(mult1, mult2), width);
-    return [innerHeight, innerWidth];
-  }
-
   const configuration = palindrome.devPalindrome();
 
-  const [h, w] = getInnerHeightAndWidth();
-  console.log(h, w)
-  configuration.innerHeight = 500;
-  configuration.innerWidth = 1000;
-  configuration.grafanaZoom = 2;
+  configuration.innerHeight = document.getElementById('palindromeBody')?.clientHeight;
+  configuration.innerWidth = document.getElementById('palindromeBody')?.clientWidth;
+  configuration.grafanaZoom = 5;
 
   const palindromeBody = document.getElementById('palindromeBody');
   configuration.data = ds;
   configuration.displayGrid = false;
   if (theme.name === 'Dark') {
     configuration.isDarkGrafana = true;
-    configuration.grafanaColor = theme.colors.bg2;
+    configuration.grafanaColor = theme.colors.bg1;
     configuration.frameLineColor = "#FFFFFF";
     configuration.metricsLabelsColor = "#ccccdc";
   }
 
+  configuration.colorsBehavior = 'ranges';
   const container = document.createElement('div');
   palindrome.default(container, { ...configuration });
 
   if (isWellStructured) {
-    appendContainerToBody(palindromeBody, container);
+    setTimeout(() => {
+      appendContainerToBody(palindromeBody, container);
+    }, 0);
   }
 
   const elements = document.getElementsByClassName('palindromeContainer');

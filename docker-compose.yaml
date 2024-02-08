@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   grafana:
-    container_name: 'palindrome-grafana-integration'
+    container_name: 'palindrome-grafana-plugin'
     platform: 'linux/amd64'
     build:
       context: ./.config
