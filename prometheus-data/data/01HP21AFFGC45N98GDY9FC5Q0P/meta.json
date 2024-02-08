@@ -1,0 +1,17 @@
+{
+	"ulid": "01HP21AFFGC45N98GDY9FC5Q0P",
+	"minTime": 1707307200000,
+	"maxTime": 1707314400000,
+	"stats": {
+		"numSamples": 52650,
+		"numSeries": 85,
+		"numChunks": 450
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HP21AFFGC45N98GDY9FC5Q0P"
+		]
+	},
+	"version": 1
+}
