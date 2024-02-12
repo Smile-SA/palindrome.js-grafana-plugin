@@ -78,7 +78,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height 
 
   configuration.innerHeight = document.getElementById('palindromeBody')?.clientHeight;
   configuration.innerWidth = document.getElementById('palindromeBody')?.clientWidth;
-  configuration.grafanaZoom = 5;
+  configuration.grafanaZoom = 2;
 
   const palindromeBody = document.getElementById('palindromeBody');
   configuration.data = ds;
