@@ -7,62 +7,92 @@ import { useTheme } from '@grafana/ui';
 const palindrome = require('../palindrome/palindrome.js');
 interface Props extends PanelProps<SimpleOptions> { }
 
-export const PalindromePanel: React.FC<Props> = ({ options, data, width, height }) => {
+export const PalindromePanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
   const [isWellStructured, setIsWellStructured] = useState(true);
   const [ds, setDs] = useState({});
   const theme = useTheme();
 
   let dataStructure = {} as any;
+  let configuration = {} as any;
   useEffect(() => {
     setIsWellStructured(true);
+    console.log(data.request?.targets)
     if (data.series.length > 0) {
       for (const serie of data.series) {
         const executedQueryString = serie.meta?.executedQueryString;
-        const commentRegex = /#\s*(\w+)/;
-        const match = executedQueryString?.match(commentRegex);
-        let layerName;
+        const regex = /#layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
+        const match = executedQueryString?.match(regex);
+        const parts = executedQueryString?.split('#');
+        const metricName = parts![0].trim().replace('Expr: ', '') || '';
+        let layerName, ranges;
         if (!match) {
           layerName = 'Untitled';
         }
         else {
           layerName = match![1];
+          ranges = match![2].split(',').map(Number);
         }
-        if (!layerName) {
+        if (!layerName || !ranges) {
           setIsWellStructured(false);
           break;
         }
         for (const field of serie.fields) {
           if (field.name !== 'Time') {
-            const level = field?.labels?.level;
-            const unit = field?.labels?.unit;
-            if (!level) {
-              setIsWellStructured(false);
-              break;
-            }
+            const unit = "";
             const value = field?.values[field?.values.length - 1];
-            const name = field?.name;
+            const [min, med, max] = ranges;
+            console.log({ layerName, ranges, value, metricName })
             if (!dataStructure[layerName]) {
               dataStructure[layerName] = {};
             }
             if (!dataStructure[layerName]['metrics']) {
               dataStructure[layerName]['metrics'] = {};
             }
-            if (!dataStructure[layerName]['metrics'][field.name]) {
-              dataStructure[layerName]['metrics'][field.name] = {};
+            if (!dataStructure[layerName]['metrics'][metricName]) {
+              dataStructure[layerName]['metrics'][metricName] = {};
             }
 
-            dataStructure[layerName]['metrics'][field.name]['label'] = name;
-            dataStructure[layerName]['metrics'][field.name][level] = value;
-            dataStructure[layerName]['metrics'][field.name]['unit'] = unit;
+            dataStructure[layerName]['metrics'][metricName]['label'] = metricName;
+            dataStructure[layerName]['metrics'][metricName]['min'] = min;
+            dataStructure[layerName]['metrics'][metricName]['med'] = med;
+            dataStructure[layerName]['metrics'][metricName]['max'] = max;
+            dataStructure[layerName]['metrics'][metricName]['current'] = value;
+            dataStructure[layerName]['metrics'][metricName]['unit'] = unit;
             dataStructure[layerName]["layer"] = {};
             dataStructure[layerName]["layer"][`${layerName}-layer`] = {};
             dataStructure[layerName]["layer"][`${layerName}-layer`]['label'] = layerName;
           }
         }
       }
+      if ((document.getElementById('readOnlyDs') as HTMLInputElement)) {
+        (document.getElementById('readOnlyDs') as HTMLInputElement).value = JSON.stringify(dataStructure, null, 2);
+      }
       setDs(dataStructure);
     }
+    if (Object.keys(dataStructure).length > 0) {
+      configuration = palindrome.devPalindrome();
+      const configDeepCopied = JSON.parse(JSON.stringify(configuration));
+      delete configDeepCopied.data;
+      setPalindromeConfig(JSON.stringify(configDeepCopied, null, 2));
+    }
+
+
   }, [data.series]);
+
+  const { palindromeConfig } = options;
+
+  const setPalindromeConfig = (refId: string) => {
+    onOptionsChange({
+      ...options,
+      palindromeConfig: refId,
+    });
+  };
+
+  const applyCustomConfig = (configuration: any) => {
+    for (const [key, value] of Object.entries(JSON.parse(palindromeConfig))) {
+      configuration[key] = value;
+    }
+  }
 
   const appendContainerToBody = (palindromeBody: any, container: any) => {
     if (palindromeBody?.children.length === 0) {
@@ -74,7 +104,13 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height 
     }
   }
 
-  const configuration = palindrome.devPalindrome();
+  // const configuration = palindrome.devPalindrome();
+  if (palindromeConfig?.length > 0) {
+    applyCustomConfig(configuration)
+  }
+  //const configDeepCopied = JSON.parse(JSON.stringify(configuration));
+  //delete configDeepCopied.data;
+  // setPalindromeConfig(JSON.stringify(configuration, null, 2));
 
   configuration.innerHeight = document.getElementById('palindromeBody')?.clientHeight;
   configuration.innerWidth = document.getElementById('palindromeBody')?.clientWidth;
@@ -107,7 +143,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height 
 
   return (
     <>
-      {!isWellStructured && <h6 style={{ color: 'red' }}>Please choose your metrics from Prometheus data source.</h6>}
+      {!(Object.keys(ds).length > 0) && <h6 style={{ color: 'red' }}>Please choose your metrics from Prometheus data source.</h6>}
       <body id="palindromeBody" className="palindromeContainer" style={{ position: "absolute" }}></body>
     </>
   );

@@ -105,13 +105,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "ram{level=\"current\"}",
+          "expr": "rate(node_network_receive_packets_total{device=\"eth0\"}[$__rate_interval])",
           "instant": false,
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "RAM",
+      "title": "node_network_receive_packets_total",
       "type": "timeseries"
     },
     {
@@ -197,25 +197,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "read_IOPS{level=\"current\"}",
+          "expr": "node_memory_MemAvailable_bytes / 1e9",
           "instant": false,
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "write_IOPS{level=\"current\"}",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "B"
         }
       ],
-      "title": "I/O",
+      "title": "node_memory_MemAvailable",
       "type": "timeseries"
     },
     {
@@ -301,37 +289,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "cpu_speed{level=\"current\"}",
+          "expr": "node_load1",
           "instant": false,
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "cpu_temperature{level=\"current\"}",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "cpu{level=\"current\"}",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "C"
         }
       ],
-      "title": "CPU",
+      "title": "node_load1",
       "type": "timeseries"
     },
     {
@@ -389,7 +353,32 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "node_procs_running{instance=\"node_exporter:9100\", job=\"palindrome_remote_data_source\"}"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -417,13 +406,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "storage{level=\"current\"}",
+          "expr": "node_procs_running",
           "instant": false,
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Storage",
+      "title": "node_procs_running",
       "type": "timeseries"
     },
     {
@@ -446,7 +435,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "cpu #systemMetrics",
+          "expr": "node_memory_MemAvailable_bytes / 1e9 #layer: systemMetrics, ranges: [4, 16, 32]",
+          "hide": false,
           "instant": false,
           "range": true,
           "refId": "A"
@@ -457,7 +447,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "cpu_temperature #systemMetrics",
+          "expr": "node_disk_io_now{device=\"nvme0n1\"} #layer: systemMetrics, ranges: [0, 50, 100]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -469,7 +459,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "storage #systemMetrics",
+          "expr": "node_load1 #layer: systemMetrics, ranges: [0, 5, 10]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -481,7 +471,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "ram #systemMetrics",
+          "expr": "node_disk_io_now{device=\"nvme0n1\"} #layer: serverMetrics, ranges: [0, 1000, 10000]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -493,7 +483,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "wifi_frequency #systemMetrics",
+          "expr": "node_load1 #layer: serverMetrics, ranges: [0, 5, 10]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -505,7 +495,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "total_data_received #qosMetrics",
+          "expr": "node_procs_running #layer: serverMetrics, ranges: [0, 5, 100]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -517,54 +507,18 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "total_data_transferred #qosMetrics",
+          "expr": "apache_exporter_build_info #layer: systemMetrics, ranges: [0, 2, 5]",
           "hide": false,
           "instant": false,
           "range": true,
           "refId": "G"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "cpu_speed #qosMetrics",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "read_IOPS #qosMetrics",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "write_IOPS #qosMetrics",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "J"
         }
       ],
       "title": "Palindrome.js",
       "type": "smile-palindrome-panel"
     }
   ],
-  "refresh": "30m",
+  "refresh": "5s",
   "schemaVersion": 38,
   "style": "light",
   "tags": [],

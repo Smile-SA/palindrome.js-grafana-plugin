@@ -14,7 +14,7 @@ scrape_configs:
   - job_name: 'palindrome_remote_data_source'
     scrape_interval: 5s
     static_configs:
-    - targets: ['realTimeDataExporter:9091']
+    - targets: ['node_exporter:9100', 'apache_exporter:9117']
 
   # Example job for node_exporter
   # - job_name: 'node_exporter'

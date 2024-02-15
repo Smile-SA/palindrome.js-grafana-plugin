@@ -31,11 +31,29 @@ services:
       - ./prometheus-data:/prometheus
     restart: unless-stopped
 
-  realTimeDataExporter:
-    image: real-time-data-exporter
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
     ports:
-      - 9091:9091
+      - 9100:9100
+    command:
+      - '--path.rootfs=/host'
+    user: root
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
 
+  apache_exporter:
+    image: lusotycoon/apache-exporter
+    container_name: apache_exporter
+    privileged: true
+    ports:
+    - mode: ingress
+      target: 9117
+      published: "9117"
+      protocol: tcp
+    restart: unless-stopped
+    entrypoint: /bin/apache_exporter  --scrape_uri="http://172.17.0.1/server-status?auto"
 
 volumes:
   prometheus-data:
