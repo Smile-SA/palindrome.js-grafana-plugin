@@ -6,7 +6,7 @@
  */
 {
   "compilerOptions": {
-    "alwaysStrict": true,
+    "alwaysStrict": false,
     "declaration": false,
     "rootDir": "../src",
     "baseUrl": "../src",
