@@ -9,7 +9,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(PalindromePanel).setPanelOp
       id: 'palindromeDs',
       path: 'palindromeDs',
       name: 'Palindrome Data Structure',
-      description: 'Once rendered, your data structure will be displayed here',
+      description: 'Once rendered, your data structure will be displayed here. (Editable through query comments)',
       editor: ReadOnlyInput,
       settings: {
         placeholder: '',
@@ -18,7 +18,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(PalindromePanel).setPanelOp
     .addTextInput({
       path: 'palindromeConfig',
       name: 'Palindrome Configuration',
-      description: 'Once rendered, your Palindrome.js configuration will be displayed here',
+      description: 'Once rendered, your Palindrome.js configuration will be displayed here. (Editable in the block below)',
       settings: {
         useTextarea: true,
         rows: 10

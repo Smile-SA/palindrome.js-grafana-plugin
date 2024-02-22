@@ -71,6 +71,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       setDs(dataStructure);
 
       const { palindromeConfig } = options;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       configuration = palindrome.devPalindrome(true);
 
       if (palindromeConfig?.length > 0) {
@@ -104,6 +105,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
     return () => {
       setTimeout(() => {
         if (canvasRef.current) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           canvasRef.current.removeChild(container);
         }
       }, 0);
