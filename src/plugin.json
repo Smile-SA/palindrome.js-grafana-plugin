@@ -1,17 +1,17 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
-  "name": "Palindrome",
-  "id": "smile-palindrome-panel",
+  "name": "Palindrome.js",
+  "id": "palindrome-js",
   "info": {
     "keywords": ["panel"],
-    "description": "Palindrome Grafana plugin",
+    "description": "Palindrome.js Grafana panel",
     "author": {
       "name": "Smile"
     },
     "logos": {
-      "small": "img/logo.svg",
-      "large": "img/logo.svg"
+      "small": "img/favicon.png",
+      "large": "img/favicon.png"
     },
     "links": [],
     "screenshots": [],

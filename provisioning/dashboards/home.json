@@ -515,7 +515,7 @@
         }
       ],
       "title": "Palindrome.js",
-      "type": "smile-palindrome-panel"
+      "type": "palindrome-js"
     }
   ],
   "refresh": "5s",
@@ -526,7 +526,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
