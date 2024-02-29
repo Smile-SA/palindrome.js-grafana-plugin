@@ -10,10 +10,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(PalindromePanel).setPanelOp
       path: 'palindromeDs',
       name: 'Palindrome Data Structure',
       description: 'Once rendered, your data structure will be displayed here. (Editable through query comments)',
-      editor: ReadOnlyInput,
-      settings: {
-        placeholder: '',
-      },
+      editor: ReadOnlyInput
     })
     .addTextInput({
       path: 'palindromeConfig',

@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
-import { useTheme } from '@grafana/ui';
+import { config } from "@grafana/runtime";
 
 const palindrome = require('../palindrome/palindrome.js');
 interface Props extends PanelProps<SimpleOptions> { }
 
 export const PalindromePanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
   const [ds, setDs] = useState<any>({});
-  const theme = useTheme();
   const canvasRef = useRef<any>(null);
 
   let dataStructure = {} as any;
@@ -84,9 +83,9 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       configuration.innerWidth = width;
       configuration.grafanaZoom = 2;
 
-      if (theme.name === 'Dark') {
+      if (config.theme2.isDark) {
         configuration.isDarkGrafana = true;
-        configuration.grafanaColor = theme.colors.bg1;
+        configuration.grafanaColor = config.theme2.colors.background.primary;
         configuration.frameLineColor = "#FFFFFF";
         configuration.metricsLabelsColor = "#ccccdc";
       }
