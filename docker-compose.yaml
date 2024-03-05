@@ -16,7 +16,7 @@ services:
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/home.json
     volumes:
       
-      - ./dist:/var/lib/grafana/plugins/palindrome-js
+      - ./dist:/var/lib/grafana/plugins/palindrome-js-panel
       - ./provisioning:/etc/grafana/provisioning
       - ./defaults.ini:/usr/share/grafana/conf/defaults.ini
 

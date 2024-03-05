@@ -125,7 +125,7 @@
         }
       ],
       "title": "Palindrome.js",
-      "type": "palindrome-js"
+      "type": "palindrome-js-panel"
     }
   ],
   "refresh": "5s",
