@@ -130,8 +130,8 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
 
   return (
     <>
-      {!(Object.keys(ds).length > 0) && <h6 style={{ color: 'red' }}>Please choose your metrics from Prometheus data source.</h6>}
-      {!(Object.keys(ds).length > 0) && <h6 style={{ color: 'red' }}><b>Query example:</b> node_procs_running #layer: serverMetrics, ranges: [0, 5, 100].</h6>}
+      {!(Object.keys(ds).length > 0) && <h6 id='info-metrics' style={{ color: 'red' }}>Please choose your metrics from Prometheus data source.</h6>}
+      {!(Object.keys(ds).length > 0) && <h6 id='info-query' style={{ color: 'red' }}><b>Query example:</b> node_procs_running #layer: serverMetrics, ranges: [0, 5, 100].</h6>}
       <div ref={canvasRef}></div>
     </>
   );
