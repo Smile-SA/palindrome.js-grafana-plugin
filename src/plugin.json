@@ -13,8 +13,18 @@
       "small": "img/favicon.png",
       "large": "img/favicon.png"
     },
-    "links": [],
-    "screenshots": [],
+    "links": [
+      {
+        "name": "Palindrome.js",
+        "url": "https://github.com/Smile-SA/palindrome.js"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Panel",
+        "path": "img/dashboard.png"
+      }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },

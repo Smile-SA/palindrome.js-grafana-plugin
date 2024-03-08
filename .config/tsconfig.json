@@ -6,16 +6,15 @@
  */
 {
   "compilerOptions": {
-    "alwaysStrict": false,
+    "alwaysStrict": true,
     "declaration": false,
     "rootDir": "../src",
     "baseUrl": "../src",
-    "typeRoots": ["../node_modules/@types","../typings"],
+    "typeRoots": ["../node_modules/@types"],
     "resolveJsonModule": true
   },
   "ts-node": {
     "compilerOptions": {
-      "allowJs": true,
       "module": "commonjs",
       "target": "es5",
       "esModuleInterop": true

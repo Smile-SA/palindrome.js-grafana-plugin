@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import { config } from "@grafana/runtime";
-
-const palindrome = require('../palindrome/palindrome.js');
+import palindrome, { devPalindrome } from 'palindrome/src/index.js'
 interface Props extends PanelProps<SimpleOptions> { }
 
 export const PalindromePanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
@@ -71,7 +70,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
 
       const { palindromeConfig } = options;
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      configuration = palindrome.devPalindrome(true);
+      configuration = devPalindrome(true);
 
       if (palindromeConfig?.length > 0) {
         configuration = applyCustomConfig(palindromeConfig, configuration);
@@ -93,7 +92,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       delete configDeepCopied.data;
       setPalindromeConfig(JSON.stringify(configDeepCopied, null, 2));
 
-      palindrome.default(container, { ...configuration });
+      palindrome(container, { ...configuration });
       setTimeout(() => {
         if (canvasRef.current) {
           canvasRef.current.appendChild(container);
