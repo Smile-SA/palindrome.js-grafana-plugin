@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import { config } from "@grafana/runtime";
-import palindrome, { devPalindrome } from 'palindrome/src/index.js'
+import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js'
 interface Props extends PanelProps<SimpleOptions> { }
 
 export const PalindromePanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {

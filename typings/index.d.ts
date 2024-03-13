@@ -1,1 +1,1 @@
-declare module 'palindrome/src/index.js';
+declare module '@smile/palindrome.js/src/index.js';

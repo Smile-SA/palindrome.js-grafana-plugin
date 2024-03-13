@@ -1,6 +1,6 @@
 import { e2e } from '@grafana/e2e';
 
-const palindrome = require('../../src/palindrome/palindrome.js');
+import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js'
 
 describe('Palindrome.js lib integration', () => {
 
@@ -10,12 +10,12 @@ describe('Palindrome.js lib integration', () => {
 
 
   it("should return correct configuration", () => {
-    const configuration = palindrome.devPalindrome(true);
+    const configuration = devPalindrome(true);
     e2e().wrap(configuration).then(config => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       expect(config).to.be.an('object').and.to.not.be.empty;
     });
-    e2e().wrap(palindrome.default).should('be.a', 'function');
+    e2e().wrap(palindrome).should('be.a', 'function');
   });
 
   it("should open the edit panel and display Palindrome.js data structure", () => {
@@ -23,6 +23,7 @@ describe('Palindrome.js lib integration', () => {
     e2e().get('[data-testid="data-testid\ Panel\ menu\ Palindrome.js"]').click();
     e2e().get('[data-testid="data-testid\ Panel\ menu\ item\ Edit"]').click();
     e2e().get('[id="Palindrome.js"]').should('be.visible');
+    e2e().wait(1000);
     e2e().get('[id="readOnlyDs"]').then(readOnlyDs => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       expect(JSON.parse(Cypress.$(readOnlyDs).val() as string)).to.be.an('object').and.to.not.be.empty;

@@ -1,62 +1,69 @@
-# Grafana panel plugin template
+<h1 align="center">
+  Grafana Palindrome.js Panel
+</h1>
 
-This template is a starting point for building a panel plugin for Grafana.
+<p align="center">
+Visualize your Prometheus metrics in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the is based on the <a src='https://github.com/Smile-SA/palindrome.js/'>Palindrome.js</a> library.
+</p>
 
-## What are Grafana panel plugins?
+> Palindrome.js is a three.js based library which provides 3D monitoring for system metrics and KPIs. Presented as metrics sets within layers, Palindrome.js helps to easily identify relations between metrics, indicators, behaviors or trends for your realtime systems or any other data source. Custom algorithms, visual behaviors, styles and color schemes can easily be modified or added.
 
-Panel plugins allow you to add new types of visualizations to your dashboard, such as maps, clocks, pie charts, lists, and more.
 
-Use panel plugins when you want to do things like visualize data returned by data source queries, navigate between dashboards, or control external systems (such as smart home devices).
+<p align="center">
+    <a href="https://github.com/Smile-SA/palindrome.js/">
+      <img src="./src/img/Palindrome.js-logo-and-title.jpg" alt="Grafana Palindrome.js Panel" width=350">
+    </a>
+</p>
 
-## Getting started
+## 🎯 Key Features and usage
+Actually, Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to 5 metrics. Each metric is presented by minimum, median, and maximum values, which are entered by the user, along with the current value obtained from the Prometheus data source. Based on the current value compared to the other values, the shape and color state of the 3D model will change. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
 
-### Frontend
+This panel should be connected to a Prometheus data source, enabling you to:
 
-1. Install dependencies
+- Define layers and metrics: Select your Prometheus metrics using code queries in the following format:
+  ```Promql
+  <promql_query> #layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
+  ```
+  **For example:**
+  ```
+  node_disk_io_now{device="nvme0n1"} #layer: systemMetrics, ranges: [0, 50, 100]
+  ```
+- Once you've finished typing queries, click on Run queries, and the 3D object will appear. Additionally, two fields will be populated:` Palindrome Data Structure` and `Palindrome Configuration`:
+
+  - **Palindrome Data Structure:** This is the data structure of Palindrome.js based on the metrics entered by the user. It is a read-only text area.
+
+  - **Palindrome Configuration:** This field displays the current configuration used to display the 3D object. It is editable. For more information, please refer to our [API reference](https://github.com/Smile-SA/palindrome.js/wiki/API-Reference).
+
+![Palindrome.js integration in Grafana](src/img/dashboard.png).
+
+
+## ⚙️ Getting started
+
+### Install dependencies and build the project
 
    ```bash
-   npm install
+   docker build -t palindrome-builder .
+   docker run -v ./dist:/dist palindrome-builder
    ```
 
-2. Build plugin in development mode and run in watch mode
+### Run the plugin
 
    ```bash
-   npm run dev
+   docker compose up
    ```
+   Project should be up and running on: http://localhost:3000.
 
-3. Build plugin in production mode
-
-   ```bash
-   npm run build
-   ```
-
-4. Run the tests (using Jest)
-
-   ```bash
-   # Runs the tests and watches for changes, requires git init first
-   npm run test
-
-   # Exits after running all the tests
-   npm run test:ci
-   ```
-
-5. Spin up a Grafana instance and run the plugin inside it (using Docker)
-
-   ```bash
-   npm run server
-   ```
-
-6. Run the E2E tests (using Cypress)
+### Run the E2E tests (using Cypress)
 
    ```bash
    # Spins up a Grafana instance first that we tests against
-   npm run server
+   docker compose up
 
    # Starts the tests
    npm run e2e
    ```
 
-7. Run the linter
+### Run the linter
 
    ```bash
    npm run lint
@@ -66,49 +73,16 @@ Use panel plugins when you want to do things like visualize data returned by dat
    npm run lint:fix
    ```
 
-# Distributing your plugin
 
-When distributing a Grafana plugin either within the community or privately the plugin must be signed so the Grafana application can verify its authenticity. This can be done with the `@grafana/sign-plugin` package.
 
-_Note: It's not necessary to sign a plugin during development. The docker development environment that is scaffolded with `@grafana/create-plugin` caters for running the plugin without a signature._
+## Realtime Palindrome.js
+![Palindrome.js integration in Grafana](src/img/realtime.gif)
 
-## Initial steps
+## ⚠️ Credits
+- Rivalan, J. (2019). Palindrome.js (Version 1.0) [Computer software]. https://github.com/Smile-SA/palindrome.js
+- Rnd Team @ SMILE
+- Mohamed Ali YACOUBI @yacoubii
 
-Before signing a plugin please read the Grafana [plugin publishing and signing criteria](https://grafana.com/legal/plugins/#plugin-publishing-and-signing-criteria) documentation carefully.
+## ⚠️ License
 
-`@grafana/create-plugin` has added the necessary commands and workflows to make signing and distributing a plugin via the grafana plugins catalog as straightforward as possible.
-
-Before signing a plugin for the first time please consult the Grafana [plugin signature levels](https://grafana.com/legal/plugins/#what-are-the-different-classifications-of-plugins) documentation to understand the differences between the types of signature level.
-
-1. Create a [Grafana Cloud account](https://grafana.com/signup).
-2. Make sure that the first part of the plugin ID matches the slug of your Grafana Cloud account.
-   - _You can find the plugin ID in the `plugin.json` file inside your plugin directory. For example, if your account slug is `acmecorp`, you need to prefix the plugin ID with `acmecorp-`._
-3. Create a Grafana Cloud API key with the `PluginPublisher` role.
-4. Keep a record of this API key as it will be required for signing a plugin
-
-## Signing a plugin
-
-### Using Github actions release workflow
-
-If the plugin is using the github actions supplied with `@grafana/create-plugin` signing a plugin is included out of the box. The [release workflow](./.github/workflows/release.yml) can prepare everything to make submitting your plugin to Grafana as easy as possible. Before being able to sign the plugin however a secret needs adding to the Github repository.
-
-1. Please navigate to "settings > secrets > actions" within your repo to create secrets.
-2. Click "New repository secret"
-3. Name the secret "GRAFANA_API_KEY"
-4. Paste your Grafana Cloud API key in the Secret field
-5. Click "Add secret"
-
-#### Push a version tag
-
-To trigger the workflow we need to push a version tag to github. This can be achieved with the following steps:
-
-1. Run `npm version <major|minor|patch>`
-2. Run `git push origin main --follow-tags`
-
-## Learn more
-
-Below you can find source code for existing app plugins and other related documentation.
-
-- [Basic panel plugin example](https://github.com/grafana/grafana-plugin-examples/tree/master/examples/panel-basic#readme)
-- [`plugin.json` documentation](https://grafana.com/developers/plugin-tools/reference-plugin-json)
-- [How to sign a plugin?](https://grafana.com/developers/plugin-tools/publish-a-plugin/sign-a-plugin)
+This project is licensed under [Apache2.0](./LICENSE).

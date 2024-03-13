@@ -23,6 +23,10 @@
       {
         "name": "Panel",
         "path": "img/dashboard.png"
+      },
+      {
+        "name": "Panel",
+        "path": "img/panel.png"
       }
     ],
     "version": "%VERSION%",
