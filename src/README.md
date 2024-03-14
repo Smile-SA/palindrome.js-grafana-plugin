@@ -42,3 +42,8 @@ This panel should be connected to a Prometheus data source, enabling you to:
 ## 📺 Demo
 
 ![Palindrome.js integration in Grafana demo](./img/demo.gif)
+
+
+Palindrome.js is also available in a light theme version.
+
+![Palindrome.js light](./img/light-panel.png).

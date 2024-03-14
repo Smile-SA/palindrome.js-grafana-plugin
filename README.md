@@ -34,7 +34,11 @@ This panel should be connected to a Prometheus data source, enabling you to:
 
   - **Palindrome Configuration:** This field displays the current configuration used to display the 3D object. It is editable. For more information, please refer to our [API reference](https://github.com/Smile-SA/palindrome.js/wiki/API-Reference).
 
-![Palindrome.js integration in Grafana](src/img/dashboard.png).
+![Palindrome.js integration in Grafana](src/img/dashboard.png)
+
+Palindrome.js is also available in a light theme version.
+
+![Palindrome.js light](src/img/light-panel.png).
 
 
 ## ⚙️ Getting started

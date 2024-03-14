@@ -1,5 +1,5 @@
 {
-  "name": "Palindrome.js",
+  "name": "@smile/grafana-palindrome.js-panel",
   "version": "1.0.0",
   "description": "Palindrome.js Grafana plugin",
   "scripts": {

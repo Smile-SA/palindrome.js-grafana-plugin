@@ -87,6 +87,12 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         configuration.grafanaColor = config.theme2.colors.background.primary;
         configuration.frameLineColor = "#FFFFFF";
         configuration.metricsLabelsColor = "#ccccdc";
+      } 
+      else {
+        delete configuration.isDarkGrafana;
+        delete configuration.grafanaColor;
+        configuration.frameLineColor = "#000000";
+        delete configuration.metricsLabelsColor;
       }
       const configDeepCopied = JSON.parse(JSON.stringify(configuration));
       delete configDeepCopied.data;
