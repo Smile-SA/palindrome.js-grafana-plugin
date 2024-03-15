@@ -34,11 +34,11 @@ This panel should be connected to a Prometheus data source, enabling you to:
 
   - **Palindrome Configuration:** This field displays the current configuration used to display the 3D object. It is editable. For more information, please refer to our [API reference](https://github.com/Smile-SA/palindrome.js/wiki/API-Reference).
 
-![Palindrome.js integration in Grafana](src/img/dashboard.png)
+![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/dashboard.png)
 
 Palindrome.js is also available in a light theme version.
 
-![Palindrome.js light](src/img/light-panel.png).
+![Palindrome.js light](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/light-panel.png).
 
 
 ## ⚙️ Getting started
@@ -80,7 +80,7 @@ Palindrome.js is also available in a light theme version.
 
 
 ## Realtime Palindrome.js
-![Palindrome.js integration in Grafana](src/img/realtime.gif)
+![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/realtime.gif)
 
 ## ⚠️ Credits
 - Rivalan, J. (2019). Palindrome.js (Version 1.0) [Computer software]. https://github.com/Smile-SA/palindrome.js
@@ -89,4 +89,4 @@ Palindrome.js is also available in a light theme version.
 
 ## ⚠️ License
 
-This project is licensed under [Apache2.0](./LICENSE).
+This project is licensed under [Apache2.0](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/LICENSE).

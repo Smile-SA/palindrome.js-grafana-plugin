@@ -11,11 +11,11 @@ Visualize your Prometheus metrics in 3D and in real time with the Grafana Palind
 
 <p align="center">
     <a href="https://github.com/Smile-SA/palindrome.js/">
-      <img src="./img/Palindrome.js-logo-and-title.jpg" alt="Grafana Palindrome.js Panel" width=350">
+      <img src="https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/Palindrome.js-logo-and-title.jpg" alt="Grafana Palindrome.js Panel" width=350">
     </a>
 </p>
 
-![Palindrome.js integration in Grafana](./img/dashboard.png).
+![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/dashboard.png).
 
 ## 🎯 Usage
 This panel should be connected to a Prometheus data source, enabling you to:
@@ -36,14 +36,14 @@ This panel should be connected to a Prometheus data source, enabling you to:
 
 
 ## Realtime Palindrome.js (speeded up)
-![Palindrome.js integration in Grafana](./img/realtime.gif)
+![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/realtime.gif)
 
 
 ## 📺 Demo
 
-![Palindrome.js integration in Grafana demo](./img/demo.gif)
+![Palindrome.js integration in Grafana demo](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/demo.gif)
 
 
 Palindrome.js is also available in a light theme version.
 
-![Palindrome.js light](./img/light-panel.png).
+![Palindrome.js light](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/light-panel.png).
