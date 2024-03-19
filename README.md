@@ -79,6 +79,9 @@ Palindrome.js is also available in a light theme version.
 ## ⚡ Realtime Palindrome.js
 ![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/realtime.gif)
 
+## 📺 Creation demo
+![Palindrome.js integration in Grafana demo](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/demo.gif)
+
 ## ⚠️ Credits
 - Rivalan, J. (2019). Palindrome.js (Version 1.0) [Computer software]. https://github.com/Smile-SA/palindrome.js
 - Rnd Team @ SMILE

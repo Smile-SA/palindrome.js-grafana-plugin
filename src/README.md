@@ -39,7 +39,7 @@ This panel should be connected to a Prometheus data source, enabling you to:
 ![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/realtime.gif)
 
 
-## 📺 Demo
+## 📺 Creation demo
 
 ![Palindrome.js integration in Grafana demo](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/demo.gif)
 
