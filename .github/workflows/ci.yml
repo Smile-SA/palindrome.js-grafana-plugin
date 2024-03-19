@@ -88,4 +88,3 @@ jobs:
         with:
           name: ${{ steps.metadata.outputs.archive-checksum }}-${{ steps.metadata.outputs.plugin-version }}
           path: ${{ steps.metadata.outputs.archive-checksum }}
-          retention-days: 5
