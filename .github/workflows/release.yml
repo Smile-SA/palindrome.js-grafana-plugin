@@ -64,8 +64,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref }}
-          name: ${{ steps.changelog.outputs.title }}
-          body_path: ${{ steps.changelog.outputs.path }}
+          name: Palindrome.js Panel v1.0.0
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           files: |
