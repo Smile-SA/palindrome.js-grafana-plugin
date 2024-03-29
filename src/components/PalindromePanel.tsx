@@ -13,13 +13,17 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
   let configuration = {} as any;
 
   useEffect(() => {
+    let i = 0;
     if (data.series.length > 0) {
       for (const serie of data.series) {
-        const executedQueryString = serie.meta?.executedQueryString;
-        const regex = /#layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
+        let executedQueryString = serie.meta?.executedQueryString;
+        if (!serie.meta) {
+          executedQueryString = (data.request?.targets[i] as any).target;
+        }
+        const regex = /__metadata__:\s*layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
         const match = executedQueryString?.match(regex);
-        const parts = executedQueryString?.split('#');
-        const metricName = parts![0].trim().replace('Expr: ', '') || '';
+        const parts = executedQueryString?.split('__metadata__:');
+        let metricName = parts![0].trim().replace('Expr: ', '') || '';
         let layerName, ranges;
         if (!match) {
           layerName = 'Untitled';
@@ -34,7 +38,10 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         for (const field of serie.fields) {
           if (field.name !== 'Time') {
             const unit = "";
-            const value = field?.values[field?.values.length - 1];
+            const value = field?.values[field?.values.length - 1] ?? field?.values[field?.values.length - 2];
+            if (field.name !== "Value") {
+              metricName = serie.name ? serie.name + ' - ' + (field.labels ? (Object.values(field.labels)[0] ? Object.values(field.labels)[0] : field.name) : field.name) : field.name;
+            }
             const [min, med, max] = ranges;
             if (!dataStructure[layerName]) {
               dataStructure[layerName] = {};
@@ -57,6 +64,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
             dataStructure[layerName]["layer"][`${layerName}-layer`]['label'] = layerName;
           }
         }
+        i++;
       }
       if ((document.getElementById('readOnlyDs') as HTMLInputElement)) {
         (document.getElementById('readOnlyDs') as HTMLInputElement).value = JSON.stringify(dataStructure, null, 2);
@@ -80,14 +88,14 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       configuration.isGrafana = true;
       configuration.innerHeight = height;
       configuration.innerWidth = width;
-      configuration.grafanaZoom = 2;
+      configuration.grafanaZoom = 1.5;
 
       if (config.theme2.isDark) {
         configuration.isDarkGrafana = true;
         configuration.grafanaColor = config.theme2.colors.background.primary;
         configuration.frameLineColor = "#FFFFFF";
         configuration.metricsLabelsColor = "#ccccdc";
-      } 
+      }
       else {
         delete configuration.isDarkGrafana;
         delete configuration.grafanaColor;

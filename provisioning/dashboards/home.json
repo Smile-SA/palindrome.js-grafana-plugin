@@ -24,6 +24,142 @@
   "panels": [
     {
       "datasource": {
+        "type": "influxdb",
+        "uid": "P5697886F9CA74929"
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "palindromeConfig": "{\n  \"colorsBehavior\": \"dynamic\",\n  \"colorsDynamicDepth\": 100,\n  \"statusColorLow\": \"#319b31\",\n  \"statusColorMed\": \"#f3c60a\",\n  \"statusColorHigh\": \"#FF0000\",\n  \"spheresColorsBehavior\": \"dynamic\",\n  \"sphereColorLow\": \"#319b31\",\n  \"sphereColorMed\": \"#f3c60a\",\n  \"sphereColorHigh\": \"#FF0000\",\n  \"bicolorDisplay\": false,\n  \"transparentDisplay\": false,\n  \"transparencyHigh\": 1,\n  \"transparencyMed\": 0.5,\n  \"transparencyLow\": 0,\n  \"mainStaticColor\": \"#f3c60a\",\n  \"displayArea\": \"palindrome\",\n  \"palindromeSize\": 3,\n  \"cameraOptions\": [\n    \"Fit\"\n  ],\n  \"metricMagnifier\": 10,\n  \"layerDisplayMode\": \"dynamic\",\n  \"displayLayers\": true,\n  \"lineOpacity\": 1,\n  \"lineWidth\": 0.5,\n  \"lineColor\": \"#000000\",\n  \"displayMode\": \"dynamic\",\n  \"displaySides\": true,\n  \"gridSize\": 100,\n  \"gridDivisions\": 100,\n  \"displayGrid\": false,\n  \"zPlaneInitial\": 0,\n  \"zPlaneHeight\": 40,\n  \"zPlaneMultilayer\": 20,\n  \"metricsLabelsRenderingMode\": \"3D\",\n  \"metricsLabels3DRenderingMode\": \"Canvas\",\n  \"metricsLabelsRenderingFormat\": \"Text\",\n  \"metricsLabelsStructure\": [\n    \"Name\",\n    \"Type\",\n    \"Value\",\n    \"Unit\",\n    \"State\"\n  ],\n  \"metricsLabelsCharacterFont\": \"Arial\",\n  \"metricsLabelsSize\": 15,\n  \"metricsLabelsColor\": \"#ccccdc\",\n  \"metricsLabelsBackground\": \"#f0f0f0\",\n  \"metricsLabelsBold\": true,\n  \"metricsLabelsItalic\": false,\n  \"displayMetricsLabels\": true,\n  \"displayAllMetricsLabels\": false,\n  \"displayMetricSpheres\": true,\n  \"displayValuesOnSphereHover\": false,\n  \"layersLabelsRenderingMode\": \"3D\",\n  \"layersLabelsOrientation\": \"Sticky\",\n  \"layersLabelsCharacterFont\": \"Arial\",\n  \"layersLabelsSize\": 15,\n  \"layersLabelsColor\": \"#000000\",\n  \"layersLabelsBackground\": \"#ffffff\",\n  \"layersLabelsBold\": true,\n  \"layersLabelsItalic\": false,\n  \"displayLayersLines\": false,\n  \"displayLayersLabels\": true,\n  \"frameShape\": \"Rectangle\",\n  \"animateFrameDashedLine\": false,\n  \"frameBackgroundColor\": \"#ffffff\",\n  \"frameOpacity\": 0.5,\n  \"framePadding\": 2,\n  \"frameLineColor\": \"#FFFFFF\",\n  \"frameLineWidth\": 1,\n  \"frameDashLineSize\": 3,\n  \"displayFrames\": true,\n  \"displayFramesLine\": true,\n  \"displayFramesBackground\": false,\n  \"displayMetricsLabelsUnit\": true,\n  \"displayLabelLine\": true,\n  \"statusRangeLow\": 0,\n  \"statusRangeMed\": 33,\n  \"statusRangeHigh\": 66,\n  \"mockupData\": false,\n  \"webWorkersRendering\": false,\n  \"webWorkersHTTP\": false,\n  \"resourcesLevel\": 50,\n  \"sideLabelDisplay\": false,\n  \"rotatedMetricsAngle\": 0,\n  \"mergedMetricsNames\": false,\n  \"remoteDataFetchPace\": 1000,\n  \"layerMetricsUnits\": \"absolute\",\n  \"equalizeFrameLinks\": false,\n  \"labelToFrameLinkLength\": 40,\n  \"labelToFrameLinkType\": \"dynamic\",\n  \"negativeValuesMagnifier\": 2,\n  \"isGrafana\": true,\n  \"innerHeight\": 626,\n  \"innerWidth\": 1870,\n  \"grafanaZoom\": 1.5,\n  \"isDarkGrafana\": true,\n  \"grafanaColor\": \"#181b1f\"\n}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu0\")\n  //__metadata__:layer: Container Metrics, ranges: [0, 3, 10]",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mem\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> map(fn: (r) => ({r with _value: r._value / 1073741824}))\n  //__metadata__:layer: Container Metrics, ranges: [0, 16, 32]\n",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"kernel\")\n  |> filter(fn: (r) => r[\"_field\"] == \"processes_forked\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: Container Metrics, ranges: [0, 2, 5]\n",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> filter(fn: (r) => r[\"device\"] == \"mapper/ubuntu--vg-ubuntu--lv\")\n  |> filter(fn: (r) => r[\"fstype\"] == \"ext4\")\n  |> filter(fn: (r) => r[\"mode\"] == \"rw\")\n  |> filter(fn: (r) => r[\"path\"] == \"/etc/hosts\")\n  |> map(fn: (r) => ({r with _value: r._value / 1073741824}))\n  //__metadata__:layer: Container Metrics, ranges: [0, 75, 150]",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"processes\")\n  |> filter(fn: (r) => r[\"_field\"] == \"total_threads\")\n  //__metadata__:layer: OS Metrics, ranges: [0, 75, 150]",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"weighted_io_time\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: OS Metrics, ranges: [0, 50, 100]",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"write_time\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: OS Metrics, ranges: [0, 50, 100]",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"writes\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: OS Metrics, ranges: [0, 50, 100]",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu0\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu1\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu2\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "refId": "K"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu3\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "refId": "L"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P5697886F9CA74929"
+          },
+          "hide": false,
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu4\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "refId": "M"
+        }
+      ],
+      "title": "Palindrome.js Influxdb",
+      "type": "palindrome-js-panel"
+    },
+    {
+      "datasource": {
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -32,11 +168,11 @@
         "h": 20,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 18
       },
       "id": 1,
       "options": {
-        "palindromeConfig": "{\n  \"colorsBehavior\": \"dynamic\",\n  \"colorsDynamicDepth\": 100,\n  \"statusColorLow\": \"#319b31\",\n  \"statusColorMed\": \"#f3c60a\",\n  \"statusColorHigh\": \"#FF0000\",\n  \"spheresColorsBehavior\": \"dynamic\",\n  \"sphereColorLow\": \"#319b31\",\n  \"sphereColorMed\": \"#f3c60a\",\n  \"sphereColorHigh\": \"#FF0000\",\n  \"bicolorDisplay\": false,\n  \"transparentDisplay\": false,\n  \"transparencyHigh\": 1,\n  \"transparencyMed\": 0.5,\n  \"transparencyLow\": 0,\n  \"mainStaticColor\": \"#f3c60a\",\n  \"displayArea\": \"palindrome\",\n  \"palindromeSize\": 3,\n  \"cameraOptions\": [\n    \"Fit\"\n  ],\n  \"metricMagnifier\": 10,\n  \"layerDisplayMode\": \"dynamic\",\n  \"displayLayers\": true,\n  \"lineOpacity\": 1,\n  \"lineWidth\": 0.5,\n  \"lineColor\": \"#000000\",\n  \"displayMode\": \"dynamic\",\n  \"displaySides\": true,\n  \"gridSize\": 100,\n  \"gridDivisions\": 100,\n  \"displayGrid\": false,\n  \"zPlaneInitial\": 0,\n  \"zPlaneHeight\": 40,\n  \"zPlaneMultilayer\": 20,\n  \"metricsLabelsRenderingMode\": \"3D\",\n  \"metricsLabels3DRenderingMode\": \"Canvas\",\n  \"metricsLabelsRenderingFormat\": \"Text\",\n  \"metricsLabelsStructure\": [\n    \"Name\",\n    \"Type\",\n    \"Value\",\n    \"Unit\",\n    \"State\"\n  ],\n  \"metricsLabelsCharacterFont\": \"Arial\",\n  \"metricsLabelsSize\": 15,\n  \"metricsLabelsColor\": \"#ccccdc\",\n  \"metricsLabelsBackground\": \"#f0f0f0\",\n  \"metricsLabelsBold\": true,\n  \"metricsLabelsItalic\": false,\n  \"displayMetricsLabels\": true,\n  \"displayAllMetricsLabels\": false,\n  \"displayMetricSpheres\": true,\n  \"displayValuesOnSphereHover\": false,\n  \"layersLabelsRenderingMode\": \"3D\",\n  \"layersLabelsOrientation\": \"Sticky\",\n  \"layersLabelsCharacterFont\": \"Arial\",\n  \"layersLabelsSize\": 15,\n  \"layersLabelsColor\": \"#000000\",\n  \"layersLabelsBackground\": \"#ffffff\",\n  \"layersLabelsBold\": true,\n  \"layersLabelsItalic\": false,\n  \"displayLayersLines\": false,\n  \"displayLayersLabels\": true,\n  \"frameShape\": \"Rectangle\",\n  \"animateFrameDashedLine\": false,\n  \"frameBackgroundColor\": \"#ffffff\",\n  \"frameOpacity\": 0.5,\n  \"framePadding\": 2,\n  \"frameLineColor\": \"#FFFFFF\",\n  \"frameLineWidth\": 1,\n  \"frameDashLineSize\": 3,\n  \"displayFrames\": true,\n  \"displayFramesLine\": true,\n  \"displayFramesBackground\": false,\n  \"displayMetricsLabelsUnit\": true,\n  \"displayLabelLine\": true,\n  \"statusRangeLow\": 0,\n  \"statusRangeMed\": 33,\n  \"statusRangeHigh\": 66,\n  \"mockupData\": false,\n  \"liveData\": false,\n  \"benchmark\": \"Inactive\",\n  \"testBothVersions\": true,\n  \"testDuration\": 1,\n  \"clearHistory\": false,\n  \"webWorkersRendering\": false,\n  \"showResultsHistory\": false,\n  \"webWorkersHTTP\": false,\n  \"resourcesLevel\": 50,\n  \"sideLabelDisplay\": false,\n  \"rotatedMetricsAngle\": 0,\n  \"mergedMetricsNames\": false,\n  \"remoteDataFetchPace\": 1000,\n  \"layerMetricsUnits\": \"absolute\",\n  \"equalizeFrameLinks\": false,\n  \"labelToFrameLinkLength\": 40,\n  \"labelToFrameLinkType\": \"dynamic\",\n  \"negativeValuesMagnifier\": 2,\n  \"isGrafana\": true,\n  \"innerHeight\": 702,\n  \"innerWidth\": 1870,\n  \"grafanaZoom\": 2,\n  \"isDarkGrafana\": true,\n  \"grafanaColor\": \"#181b1f\"\n}"
+        "palindromeConfig": "{\n  \"colorsBehavior\": \"dynamic\",\n  \"colorsDynamicDepth\": 100,\n  \"statusColorLow\": \"#319b31\",\n  \"statusColorMed\": \"#f3c60a\",\n  \"statusColorHigh\": \"#FF0000\",\n  \"spheresColorsBehavior\": \"dynamic\",\n  \"sphereColorLow\": \"#319b31\",\n  \"sphereColorMed\": \"#f3c60a\",\n  \"sphereColorHigh\": \"#FF0000\",\n  \"bicolorDisplay\": false,\n  \"transparentDisplay\": false,\n  \"transparencyHigh\": 1,\n  \"transparencyMed\": 0.5,\n  \"transparencyLow\": 0,\n  \"mainStaticColor\": \"#f3c60a\",\n  \"displayArea\": \"palindrome\",\n  \"palindromeSize\": 3,\n  \"cameraOptions\": [\n    \"Fit\"\n  ],\n  \"metricMagnifier\": 10,\n  \"layerDisplayMode\": \"dynamic\",\n  \"displayLayers\": true,\n  \"lineOpacity\": 1,\n  \"lineWidth\": 0.5,\n  \"lineColor\": \"#000000\",\n  \"displayMode\": \"dynamic\",\n  \"displaySides\": true,\n  \"gridSize\": 100,\n  \"gridDivisions\": 100,\n  \"displayGrid\": false,\n  \"zPlaneInitial\": 0,\n  \"zPlaneHeight\": 40,\n  \"zPlaneMultilayer\": 20,\n  \"metricsLabelsRenderingMode\": \"3D\",\n  \"metricsLabels3DRenderingMode\": \"Canvas\",\n  \"metricsLabelsRenderingFormat\": \"Text\",\n  \"metricsLabelsStructure\": [\n    \"Name\",\n    \"Type\",\n    \"Value\",\n    \"Unit\",\n    \"State\"\n  ],\n  \"metricsLabelsCharacterFont\": \"Arial\",\n  \"metricsLabelsSize\": 15,\n  \"metricsLabelsColor\": \"#ccccdc\",\n  \"metricsLabelsBackground\": \"#f0f0f0\",\n  \"metricsLabelsBold\": true,\n  \"metricsLabelsItalic\": false,\n  \"displayMetricsLabels\": true,\n  \"displayAllMetricsLabels\": false,\n  \"displayMetricSpheres\": true,\n  \"displayValuesOnSphereHover\": false,\n  \"layersLabelsRenderingMode\": \"3D\",\n  \"layersLabelsOrientation\": \"Sticky\",\n  \"layersLabelsCharacterFont\": \"Arial\",\n  \"layersLabelsSize\": 15,\n  \"layersLabelsColor\": \"#000000\",\n  \"layersLabelsBackground\": \"#ffffff\",\n  \"layersLabelsBold\": true,\n  \"layersLabelsItalic\": false,\n  \"displayLayersLines\": false,\n  \"displayLayersLabels\": true,\n  \"frameShape\": \"Rectangle\",\n  \"animateFrameDashedLine\": false,\n  \"frameBackgroundColor\": \"#ffffff\",\n  \"frameOpacity\": 0.5,\n  \"framePadding\": 2,\n  \"frameLineColor\": \"#FFFFFF\",\n  \"frameLineWidth\": 1,\n  \"frameDashLineSize\": 3,\n  \"displayFrames\": true,\n  \"displayFramesLine\": true,\n  \"displayFramesBackground\": false,\n  \"displayMetricsLabelsUnit\": true,\n  \"displayLabelLine\": true,\n  \"statusRangeLow\": 0,\n  \"statusRangeMed\": 33,\n  \"statusRangeHigh\": 66,\n  \"mockupData\": false,\n  \"webWorkersRendering\": false,\n  \"webWorkersHTTP\": false,\n  \"resourcesLevel\": 50,\n  \"sideLabelDisplay\": false,\n  \"rotatedMetricsAngle\": 0,\n  \"mergedMetricsNames\": false,\n  \"remoteDataFetchPace\": 1000,\n  \"layerMetricsUnits\": \"absolute\",\n  \"equalizeFrameLinks\": false,\n  \"labelToFrameLinkLength\": 40,\n  \"labelToFrameLinkType\": \"dynamic\",\n  \"negativeValuesMagnifier\": 2,\n  \"isGrafana\": true,\n  \"liveData\": false,\n  \"benchmark\": \"Inactive\",\n  \"testBothVersions\": true,\n  \"testDuration\": 1,\n  \"clearHistory\": false,\n  \"showResultsHistory\": false,\n  \"innerHeight\": 702,\n  \"innerWidth\": 1870,\n  \"grafanaZoom\": 1.5,\n  \"isDarkGrafana\": true,\n  \"grafanaColor\": \"#181b1f\"\n}"
       },
       "targets": [
         {
@@ -45,7 +181,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_memory_MemAvailable_bytes / 1e9 #layer: systemMetrics, ranges: [4, 16, 32]",
+          "expr": "node_memory_MemAvailable_bytes / 1e9 #__metadata__:layer: systemMetrics, ranges: [4, 16, 32]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -57,7 +193,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_disk_io_now{device=\"nvme0n1\"} #layer: systemMetrics, ranges: [0, 50, 100]",
+          "expr": "node_disk_io_now{device=\"nvme0n1\"} #__metadata__:layer: systemMetrics, ranges: [0, 50, 100]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -69,7 +205,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_load1 #layer: systemMetrics, ranges: [0, 5, 10]",
+          "expr": "node_load1 #__metadata__:layer: systemMetrics, ranges: [0, 5, 10]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -81,7 +217,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_disk_io_now{device=\"nvme0n1\"} #layer: serverMetrics, ranges: [0, 1000, 10000]",
+          "expr": "node_disk_io_now{device=\"nvme0n1\"} #__metadata__:layer: serverMetrics, ranges: [0, 1000, 10000]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -93,7 +229,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_load1 #layer: serverMetrics, ranges: [0, 5, 10]",
+          "expr": "node_load1 #__metadata__:layer: serverMetrics, ranges: [0, 5, 10]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -105,7 +241,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_procs_running #layer: serverMetrics, ranges: [0, 5, 100]",
+          "expr": "node_procs_running #__metadata__:layer: serverMetrics, ranges: [0, 5, 100]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -117,14 +253,66 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "apache_exporter_build_info #layer: systemMetrics, ranges: [0, 2, 5]",
+          "expr": "apache_exporter_build_info #__metadata__:layer: systemMetrics, ranges: [0, 2, 5]",
           "hide": false,
           "instant": false,
           "range": true,
           "refId": "G"
         }
       ],
-      "title": "Palindrome.js",
+      "title": "Palindrome.js Prometheus",
+      "type": "palindrome-js-panel"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 3,
+      "options": {
+        "palindromeConfig": "{\n  \"colorsBehavior\": \"dynamic\",\n  \"colorsDynamicDepth\": 100,\n  \"statusColorLow\": \"#319b31\",\n  \"statusColorMed\": \"#f3c60a\",\n  \"statusColorHigh\": \"#FF0000\",\n  \"spheresColorsBehavior\": \"dynamic\",\n  \"sphereColorLow\": \"#319b31\",\n  \"sphereColorMed\": \"#f3c60a\",\n  \"sphereColorHigh\": \"#FF0000\",\n  \"bicolorDisplay\": false,\n  \"transparentDisplay\": false,\n  \"transparencyHigh\": 1,\n  \"transparencyMed\": 0.5,\n  \"transparencyLow\": 0,\n  \"mainStaticColor\": \"#f3c60a\",\n  \"displayArea\": \"palindrome\",\n  \"palindromeSize\": 3,\n  \"cameraOptions\": [\n    \"Fit\"\n  ],\n  \"metricMagnifier\": 10,\n  \"layerDisplayMode\": \"dynamic\",\n  \"displayLayers\": true,\n  \"lineOpacity\": 1,\n  \"lineWidth\": 0.5,\n  \"lineColor\": \"#000000\",\n  \"displayMode\": \"dynamic\",\n  \"displaySides\": true,\n  \"gridSize\": 100,\n  \"gridDivisions\": 100,\n  \"displayGrid\": false,\n  \"zPlaneInitial\": 0,\n  \"zPlaneHeight\": 40,\n  \"zPlaneMultilayer\": 20,\n  \"metricsLabelsRenderingMode\": \"3D\",\n  \"metricsLabels3DRenderingMode\": \"Canvas\",\n  \"metricsLabelsRenderingFormat\": \"Text\",\n  \"metricsLabelsStructure\": [\n    \"Name\",\n    \"Type\",\n    \"Value\",\n    \"Unit\",\n    \"State\"\n  ],\n  \"metricsLabelsCharacterFont\": \"Arial\",\n  \"metricsLabelsSize\": 15,\n  \"metricsLabelsColor\": \"#ccccdc\",\n  \"metricsLabelsBackground\": \"#f0f0f0\",\n  \"metricsLabelsBold\": true,\n  \"metricsLabelsItalic\": false,\n  \"displayMetricsLabels\": true,\n  \"displayAllMetricsLabels\": false,\n  \"displayMetricSpheres\": true,\n  \"displayValuesOnSphereHover\": false,\n  \"layersLabelsRenderingMode\": \"3D\",\n  \"layersLabelsOrientation\": \"Sticky\",\n  \"layersLabelsCharacterFont\": \"Arial\",\n  \"layersLabelsSize\": 15,\n  \"layersLabelsColor\": \"#000000\",\n  \"layersLabelsBackground\": \"#ffffff\",\n  \"layersLabelsBold\": true,\n  \"layersLabelsItalic\": false,\n  \"displayLayersLines\": false,\n  \"displayLayersLabels\": true,\n  \"frameShape\": \"Rectangle\",\n  \"animateFrameDashedLine\": false,\n  \"frameBackgroundColor\": \"#ffffff\",\n  \"frameOpacity\": 0.5,\n  \"framePadding\": 2,\n  \"frameLineColor\": \"#FFFFFF\",\n  \"frameLineWidth\": 1,\n  \"frameDashLineSize\": 3,\n  \"displayFrames\": true,\n  \"displayFramesLine\": true,\n  \"displayFramesBackground\": false,\n  \"displayMetricsLabelsUnit\": true,\n  \"displayLabelLine\": true,\n  \"statusRangeLow\": 0,\n  \"statusRangeMed\": 33,\n  \"statusRangeHigh\": 66,\n  \"mockupData\": false,\n  \"webWorkersRendering\": false,\n  \"webWorkersHTTP\": false,\n  \"resourcesLevel\": 50,\n  \"sideLabelDisplay\": false,\n  \"rotatedMetricsAngle\": 0,\n  \"mergedMetricsNames\": false,\n  \"remoteDataFetchPace\": 1000,\n  \"layerMetricsUnits\": \"absolute\",\n  \"equalizeFrameLinks\": false,\n  \"labelToFrameLinkLength\": 40,\n  \"labelToFrameLinkType\": \"dynamic\",\n  \"negativeValuesMagnifier\": 2,\n  \"isGrafana\": true,\n  \"innerHeight\": 436,\n  \"innerWidth\": 1870,\n  \"grafanaZoom\": 1.5,\n  \"isDarkGrafana\": true,\n  \"grafanaColor\": \"#181b1f\"\n}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "carbon.agents.*-a.memUsage #__metadata__:layer: layer1, ranges: [0, 0.1, 0.2]",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "carbon.agents.*-a.cpuUsage #__metadata__:layer: layer1, ranges: [0, 0.1, 0.2]",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "carbon.agents.*-a.pointsPerUpdate #__metadata__: layer: layer2, ranges: [0, 1, 3]",
+          "textEditor": true
+        }
+      ],
+      "title": "Palindrome.js Graphite",
       "type": "palindrome-js-panel"
     }
   ],

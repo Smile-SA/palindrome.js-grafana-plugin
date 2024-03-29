@@ -4,6 +4,9 @@ services:
   grafana:
     container_name: 'palindrome-grafana-plugin'
     platform: 'linux/amd64'
+    depends_on:
+      - influxdb
+      - prometheus
     build:
       context: ./.config
       args:
@@ -17,6 +20,29 @@ services:
     volumes:
       - ./dist:/var/lib/grafana/plugins/palindrome-js-panel
       - ./provisioning:/etc/grafana/provisioning
+
+  influxdb:
+    image: influxdb:2.1.1
+    volumes:
+      - influxdb-data:/var/lib/influxdb2:rw
+    env_file:
+      - .env
+    entrypoint: ["./entrypoint.sh"]
+    restart: on-failure:10
+    ports:
+      - ${DOCKER_INFLUXDB_INIT_PORT}:8086
+
+  telegraf:
+    image: telegraf:1.19
+    volumes:
+      - ${TELEGRAF_CFG_PATH}:/etc/telegraf/telegraf.conf:rw
+    env_file:
+      - .env
+    depends_on:
+      - influxdb
+    # deploy:
+    #   mode: replicated
+    #   replicas: 5
 
   prometheus:
     image: prom/prometheus:v2.37.9
@@ -54,6 +80,20 @@ services:
     restart: unless-stopped
     entrypoint: /bin/apache_exporter  --scrape_uri="http://172.17.0.1/server-status?auto"
 
+  graphite:
+    image: graphiteapp/graphite-statsd
+    ports:
+      - 8080:8080
+    restart: always
+
+  # opentsdb:
+  #     image: petergrace/opentsdb-docker:latest
+  #     ports:
+  #         - 4242:4242
+  #         - 60030:60030
+
 volumes:
   prometheus-data:
+    driver: local
+  influxdb-data:
     driver: local

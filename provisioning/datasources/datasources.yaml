@@ -6,3 +6,17 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     isDefault: true
+  - name: InfluxDB_v2_Flux
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    jsonData:
+      version: Flux
+      organization: smile_rnd
+      defaultBucket: Palindrome.js
+      tlsSkipVerify: true
+    secureJsonData:
+      token: a84544ff9119033d67535ec9acf22d04246bfd946a0c3e330ecd22615129ffc4
+  - name: Graphite
+    type: graphite
+    url: http://graphite:8080
