@@ -20,9 +20,9 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         if (!serie.meta) {
           executedQueryString = (data.request?.targets[i] as any).target;
         }
-        const regex = /__metadata__:\s*layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
+        const regex = /(?:#|\/\/)layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
         const match = executedQueryString?.match(regex);
-        const parts = executedQueryString?.split('__metadata__:');
+        const parts = executedQueryString?.split(/#|\/\//);
         let metricName = parts![0].trim().replace('Expr: ', '') || '';
         let layerName, ranges;
         if (!match) {

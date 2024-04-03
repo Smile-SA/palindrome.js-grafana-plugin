@@ -43,7 +43,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu0\")\n  //__metadata__:layer: Container Metrics, ranges: [0, 3, 10]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu0\")\n  //layer: Container Metrics, ranges: [0, 3, 10]",
           "refId": "A"
         },
         {
@@ -52,7 +52,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mem\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> map(fn: (r) => ({r with _value: r._value / 1073741824}))\n  //__metadata__:layer: Container Metrics, ranges: [0, 16, 32]\n",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mem\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> map(fn: (r) => ({r with _value: r._value / 1073741824}))\n  //layer: Container Metrics, ranges: [0, 16, 32]\n",
           "refId": "B"
         },
         {
@@ -61,7 +61,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"kernel\")\n  |> filter(fn: (r) => r[\"_field\"] == \"processes_forked\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: Container Metrics, ranges: [0, 2, 5]\n",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"kernel\")\n  |> filter(fn: (r) => r[\"_field\"] == \"processes_forked\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //layer: Container Metrics, ranges: [0, 2, 5]\n",
           "refId": "C"
         },
         {
@@ -70,7 +70,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> filter(fn: (r) => r[\"device\"] == \"mapper/ubuntu--vg-ubuntu--lv\")\n  |> filter(fn: (r) => r[\"fstype\"] == \"ext4\")\n  |> filter(fn: (r) => r[\"mode\"] == \"rw\")\n  |> filter(fn: (r) => r[\"path\"] == \"/etc/hosts\")\n  |> map(fn: (r) => ({r with _value: r._value / 1073741824}))\n  //__metadata__:layer: Container Metrics, ranges: [0, 75, 150]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk\")\n  |> filter(fn: (r) => r[\"_field\"] == \"used\")\n  |> filter(fn: (r) => r[\"device\"] == \"mapper/ubuntu--vg-ubuntu--lv\")\n  |> filter(fn: (r) => r[\"fstype\"] == \"ext4\")\n  |> filter(fn: (r) => r[\"mode\"] == \"rw\")\n  |> filter(fn: (r) => r[\"path\"] == \"/etc/hosts\")\n  |> map(fn: (r) => ({r with _value: r._value / 1073741824}))\n  //layer: Container Metrics, ranges: [0, 75, 150]",
           "refId": "D"
         },
         {
@@ -79,7 +79,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"processes\")\n  |> filter(fn: (r) => r[\"_field\"] == \"total_threads\")\n  //__metadata__:layer: OS Metrics, ranges: [0, 75, 150]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"processes\")\n  |> filter(fn: (r) => r[\"_field\"] == \"total_threads\")\n  //layer: OS Metrics, ranges: [0, 75, 150]",
           "refId": "E"
         },
         {
@@ -88,7 +88,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"weighted_io_time\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: OS Metrics, ranges: [0, 50, 100]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"weighted_io_time\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //layer: OS Metrics, ranges: [0, 50, 100]",
           "refId": "F"
         },
         {
@@ -97,7 +97,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"write_time\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: OS Metrics, ranges: [0, 50, 100]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"write_time\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //layer: OS Metrics, ranges: [0, 50, 100]",
           "refId": "G"
         },
         {
@@ -106,7 +106,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"writes\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //__metadata__:layer: OS Metrics, ranges: [0, 50, 100]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"diskio\")\n  |> filter(fn: (r) => r[\"_field\"] == \"writes\")\n  |> filter(fn: (r) => r[\"name\"] == \"dm-0\")\n  |> map(fn: (r) => ({r with _value: r._value / 1000000}))\n  //layer: OS Metrics, ranges: [0, 50, 100]",
           "refId": "H"
         },
         {
@@ -115,7 +115,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu0\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu0\")\n  //layer: CPUs, ranges: [0, 3, 10]",
           "refId": "I"
         },
         {
@@ -124,7 +124,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu1\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu1\")\n  //layer: CPUs, ranges: [0, 3, 10]",
           "refId": "J"
         },
         {
@@ -133,7 +133,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu2\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu2\")\n  //layer: CPUs, ranges: [0, 3, 10]",
           "refId": "K"
         },
         {
@@ -142,7 +142,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu3\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu3\")\n  //layer: CPUs, ranges: [0, 3, 10]",
           "refId": "L"
         },
         {
@@ -151,7 +151,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu4\")\n  //__metadata__:layer: CPUs, ranges: [0, 3, 10]",
+          "query": "from(bucket: \"Palindrome.js\")\n  |> range(start:-1m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cpu\")\n  |> filter(fn: (r) => r[\"_field\"] == \"usage_system\")\n  |> filter(fn: (r) => r[\"cpu\"] == \"cpu4\")\n  //layer: CPUs, ranges: [0, 3, 10]",
           "refId": "M"
         }
       ],
@@ -181,7 +181,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_memory_MemAvailable_bytes / 1e9 #__metadata__:layer: systemMetrics, ranges: [4, 16, 32]",
+          "expr": "node_memory_MemAvailable_bytes / 1e9 #layer: systemMetrics, ranges: [4, 16, 32]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -193,7 +193,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_disk_io_now{device=\"nvme0n1\"} #__metadata__:layer: systemMetrics, ranges: [0, 50, 100]",
+          "expr": "node_disk_io_now{device=\"nvme0n1\"} #layer: systemMetrics, ranges: [0, 50, 100]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -205,7 +205,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_load1 #__metadata__:layer: systemMetrics, ranges: [0, 5, 10]",
+          "expr": "node_load1 #layer: systemMetrics, ranges: [0, 5, 10]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -217,7 +217,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_disk_io_now{device=\"nvme0n1\"} #__metadata__:layer: serverMetrics, ranges: [0, 1000, 10000]",
+          "expr": "node_disk_io_now{device=\"nvme0n1\"} #layer: serverMetrics, ranges: [0, 1000, 10000]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -229,7 +229,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_load1 #__metadata__:layer: serverMetrics, ranges: [0, 5, 10]",
+          "expr": "node_load1 #layer: serverMetrics, ranges: [0, 5, 10]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -241,7 +241,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_procs_running #__metadata__:layer: serverMetrics, ranges: [0, 5, 100]",
+          "expr": "node_procs_running #layer: serverMetrics, ranges: [0, 5, 100]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -253,7 +253,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "apache_exporter_build_info #__metadata__:layer: systemMetrics, ranges: [0, 2, 5]",
+          "expr": "apache_exporter_build_info #layer: systemMetrics, ranges: [0, 2, 5]",
           "hide": false,
           "instant": false,
           "range": true,
@@ -286,7 +286,7 @@
           },
           "refCount": 0,
           "refId": "A",
-          "target": "carbon.agents.*-a.memUsage #__metadata__:layer: layer1, ranges: [0, 0.1, 0.2]",
+          "target": "carbon.agents.*-a.memUsage #layer: layer1, ranges: [0, 0.1, 0.2]",
           "textEditor": true
         },
         {
@@ -297,7 +297,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "B",
-          "target": "carbon.agents.*-a.cpuUsage #__metadata__:layer: layer1, ranges: [0, 0.1, 0.2]",
+          "target": "carbon.agents.*-a.cpuUsage #layer: layer1, ranges: [0, 0.1, 0.2]",
           "textEditor": true
         },
         {
@@ -308,7 +308,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "C",
-          "target": "carbon.agents.*-a.pointsPerUpdate #__metadata__: layer: layer2, ranges: [0, 1, 3]",
+          "target": "carbon.agents.*-a.pointsPerUpdate #layer: layer2, ranges: [0, 1, 3]",
           "textEditor": true
         }
       ],
