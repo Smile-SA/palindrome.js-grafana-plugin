@@ -2,7 +2,7 @@
   Grafana Palindrome.js Panel
 </h1>
 
-Visualize your Prometheus metrics in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the is based on the [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
+Visualize your time series database metrics in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the is based on the [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
 
 > Palindrome.js is a three.js based library which provides 3D monitoring for system metrics and KPIs. Presented as metrics sets within layers, Palindrome.js helps to easily identify relations between metrics, indicators, behaviors or trends for your realtime systems or any other data source. Custom algorithms, visual behaviors, styles and color schemes can easily be modified or added.
 
@@ -27,7 +27,9 @@ Visualize your Prometheus metrics in 3D and in real time with the Grafana Palind
    ```bash
    docker compose up
    ```
-   Project should be up and running on: http://localhost:3000.
+   - Project should be up and running on: http://localhost:3000.
+   - Grafana credentials: (username: admin, password: admin)
+   - On the main dashboard you should be able to see three Palindrome.js panels with InfluxDB, Prometheus, and Graphite data sources.
 
 ### Run the E2E tests (using Cypress)
 
@@ -50,21 +52,50 @@ Visualize your Prometheus metrics in 3D and in real time with the Grafana Palind
    ```
 
 ## 🎯 Features and usage
-Actually, Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to 5 metrics. Each metric is presented by minimum, median, and maximum values, which are entered by the user, along with the current value obtained from the Prometheus data source. Based on the current value compared to the other values, the shape and color state of the 3D model will change. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
+Actually, Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to 5 metrics. Each metric is presented by minimum, median, and maximum values, which are entered by the user, along with the current value obtained from the time series database. Based on the current value compared to the other values, the shape and color state of the 3D model will change. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
 
-This panel should be connected to a Prometheus data source, enabling you to:
+This panel should be connected to one of these supported data sources:
+- Prometheus
+- InfluxDB v2
+- Graphite
 
-- Define layers and metrics: Select your Prometheus metrics using code queries in the following format:
+Once done, you can define layers and metrics using code queries, following this format:
+
+```
+<query> <comment-sign>layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
+```
+**Notes:**
+- Palindrome.js metadata should be inside a comment section.
+- Comment signs can be `#` or `//`.
+
+**Example for Prometheus data source**:
+
   ```Promql
-  <promql_query> #layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
-  ```
-  **For example:**
-  ```
   node_disk_io_now{device="nvme0n1"} #layer: systemMetrics, ranges: [0, 50, 100]
   ```
-- Once you've finished typing queries, click on Run queries, and the 3D object will appear. Additionally, two fields will be populated:` Palindrome Data Structure` and `Palindrome Configuration`:
 
-  - **Palindrome Data Structure:** This is the data structure of Palindrome.js based on the metrics entered by the user. It is a read-only text area.
+- Once you've finished typing queries, click on Run queries, and the 3D object will appear. 
+
+**Example for InfluxDB v2 data source**:
+
+```Flux
+from(bucket: "Palindrome.js")
+  |> range(start:-1m)
+  |> filter(fn: (r) => r["_measurement"] == "cpu")
+  |> filter(fn: (r) => r["_field"] == "usage_system")
+  |> filter(fn: (r) => r["cpu"] == "cpu0")
+  //layer: Container Metrics, ranges: [0, 3, 10]
+```
+
+**Example for Graphite data source**:
+```
+carbon.agents.*-a.pointsPerUpdate #layer: layer2, ranges: [0, 1, 3]
+```
+
+
+After setting up queries, two fields will be populated: `Palindrome Data Structure` and `Palindrome Configuration`:
+
+  - **Palindrome Data Structure:** This is the data structure of Palindrome.js based on the metrics entered by the user. It is a read-only text area (editable through query comments).
 
   - **Palindrome Configuration:** This field displays the current configuration used to display the 3D object. It is editable. For more information, please refer to our [API reference](https://github.com/Smile-SA/palindrome.js/wiki/API-Reference).
 

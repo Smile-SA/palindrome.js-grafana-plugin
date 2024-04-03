@@ -19,8 +19,8 @@ describe('Palindrome.js lib integration', () => {
   });
 
   it("should open the edit panel and display Palindrome.js data structure", () => {
-    e2e().get('[data-testid="data-testid\ Panel\ header\ Palindrome.js"]').should('be.visible');
-    e2e().get('[data-testid="data-testid\ Panel\ menu\ Palindrome.js"]').click();
+    e2e().get('[data-testid="data-testid\ Panel\ header\ Palindrome.js\ Prometheus"]').should('be.visible');
+    e2e().get('[data-testid="data-testid\ Panel\ menu\ Palindrome.js\ Prometheus"]').click();
     e2e().get('[data-testid="data-testid\ Panel\ menu\ item\ Edit"]').click();
     e2e().get('[id="Palindrome.js"]').should('be.visible');
     e2e().wait(1000);
