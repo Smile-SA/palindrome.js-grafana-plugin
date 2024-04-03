@@ -28,6 +28,7 @@ Visualize your time series database metrics in 3D and in real time with the Graf
    docker compose up
    ```
    - Project should be up and running on: http://localhost:3000.
+   - Grafana credentials: (username: admin, password: admin)
    - On the main dashboard you should be able to see three Palindrome.js panels with InfluxDB, Prometheus, and Graphite data sources.
 
 ### Run the E2E tests (using Cypress)
