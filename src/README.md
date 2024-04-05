@@ -3,10 +3,7 @@
 </h1>
 
 
-
-<p align="center">
-Visualize your Prometheus metrics in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the <a src='https://github.com/Smile-SA/palindrome.js/'>Palindrome.js</a> library.
-</p>
+Visualize Prometheus metrics or other datasources in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
 
 
 <p align="center">
