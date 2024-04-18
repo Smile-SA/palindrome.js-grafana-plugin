@@ -20,3 +20,15 @@ datasources:
   - name: Graphite
     type: graphite
     url: http://graphite:8080
+  - name: Static
+    type: marcusolsson-static-datasource
+    access: proxy
+    orgId: 1
+    version: 1
+    editable: true
+  - name: Infinity
+    type: yesoreyeram-infinity-datasource
+    access: proxy
+    orgId: 1
+    version: 1
+    editable: true

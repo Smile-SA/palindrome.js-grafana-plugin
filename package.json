@@ -34,6 +34,7 @@
     "@types/testing-library__jest-dom": "5.14.8",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
+    "dotenv": "^16.4.5",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-webpack-plugin": "^4.0.1",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
@@ -64,9 +65,11 @@
     "@grafana/schema": "10.0.3",
     "@grafana/ui": "10.0.3",
     "@smile/palindrome.js": "^1.0.6",
+    "axios": "^1.6.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tslib": "2.5.3"
+    "tslib": "2.5.3",
+    "xml-js": "^1.6.11"
   },
   "packageManager": "npm@10.2.0"
 }
