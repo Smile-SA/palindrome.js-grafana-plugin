@@ -2,9 +2,9 @@
   Grafana Palindrome.js Panel
 </h1>
 
-Visualize Prometheus metrics or other datasources in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
+Visualize Prometheus metrics or other datasources in 3D with the Grafana Palindrome.js panel. This panel is based over the SMILE[Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
 
-> Palindrome.js is a three.js based library which provides 3D monitoring for system metrics and KPIs. Presented as metrics sets within layers, Palindrome.js helps to easily identify relations between metrics, indicators, behaviors or trends for your realtime systems or any other data source. Custom algorithms, visual behaviors, styles and color schemes can easily be modified or added.
+> Palindrome.js is a three.js based library which provides 3D monitoring for system metrics and KPIs. Metrics are presented as sets within layers, which helps to easily identify relations between metrics, indicators, behaviors or trends for your realtime systems or any other data source. Custom algorithms, visual behaviors, styles and color schemes can easily be modified or added.
 
 
 <p align="center">
@@ -52,7 +52,7 @@ Visualize Prometheus metrics or other datasources in 3D and in real time with th
    ```
 
 ## 🎯 Features and usage
-Actually, Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to 5 metrics. Each metric is presented by minimum, median, and maximum values, which are entered by the user, along with the current value obtained from the time series database. Based on the current value compared to the other values, the shape and color state of the 3D model will change. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
+Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to *n* metrics. Metrics ranges are described through minimum, median, and maximum values, which are inputs from the user. The current value is obtained from the time series database. The overall Palindrome.js shape and color reflect the current values evolving in their user described ranges. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
 
 This panel should be connected to one of these supported data sources:
 - Prometheus
@@ -74,7 +74,7 @@ Once done, you can define layers and metrics using code queries, following this 
   node_disk_io_now{device="nvme0n1"} #layer: systemMetrics, ranges: [0, 50, 100]
   ```
 
-- Once you've finished typing queries, click on Run queries, and the 3D object will appear. 
+- Once you've finished typing queries, click on `Run queries`, and the 3D object will appear. 
 
 **Example for InfluxDB v2 data source**:
 
@@ -112,8 +112,8 @@ Palindrome.js is also available in a light theme version.
 ![Palindrome.js integration in Grafana demo](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/demo.gif)
 
 ## 💡 Credits
-- Mohamed Ali Yacoubi
-- Jonathan Rivalan (Author)
+- Mohamed Ali Yacoubi @yacoubii
+- JonRiv (author) @JonRiv
 - Rnd Team @ SMILE
 
 ## 📜 License
