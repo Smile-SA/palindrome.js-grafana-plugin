@@ -5,7 +5,7 @@ import { config } from "@grafana/runtime";
 import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js';
 import axios from 'axios';
 import convert from 'xml-js';
-
+import YAML from 'yaml';
 
 interface Props extends PanelProps<SimpleOptions> { }
 
@@ -14,43 +14,95 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
   const [xmlDs, setXmlDs] = useState<any>({});
   const [responses, setResponses] = useState<any>([]);
   const [layerNames, setLayerNames] = useState<any>([]);
-  const [refresh, setRefresh] = useState<any>(false);
+  const [yamlUrls, setYamlUrls] = useState<any>([]);
   const canvasRef = useRef<any>(null);
 
   let dataStructure = {} as any;
   let xmlDataStructure = {} as any;
   let configuration = {} as any;
 
-  useEffect(() => {   
-    const fetchData = async (requests: any) => {
-      const responses = await Promise.all(requests);
-      setResponses(responses);
-      setXmlDs({});
-    }
-
-    let i = 0;
-    if (data.series.length > 0) {
-      for (const serie of data.series) {
-        if (!serie.meta?.executedQueryString) {
-          // static data source
-          let urls = [];
-          for (const field of serie.fields) {
-            if (field.name === 'xml_metric_url') {
-              urls = field.values;
+  useEffect(() => {
+    // console.log("Use Effect called")
+    const container = document.createElement('div');
+    container.setAttribute('id', 'palindrome');
+    
+    // static data source logic
+    if (data.request?.targets[0].datasource?.type === "marcusolsson-static-datasource") {
+      
+      const fetchData = async (urls: any, layerLabels: any) => {
+        const ymlFiles = [];
+        for (const url of urls) {
+          ymlFiles.push((await axios.get(url)).data);
+        }
+  
+        let i = 0;
+        const allLayers = [];
+        const allRes = [];
+        for (const ymlData of ymlFiles) {
+          const jsonFromYaml = YAML.parse(ymlData);
+          let requests = [];
+          const layers = [];
+          for (const urlPart of jsonFromYaml.vo.objectLinks) {
+            layers.push(layerLabels[i] ?? 'untitled');
+            requests.push(axios.get('https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-lwm2m/-/raw/main/vo/src/main/resources/models/' + urlPart.split('/')[0] + '.xml'));
+          }
+          i++;
+          let unsuccessful = 0;
+          const responsePromises = await Promise.allSettled(requests);
+          for (const r of responsePromises) {
+            if (r.status !== 'fulfilled') {
+              unsuccessful++;
             }
           }
-          
-          let requests = [];
-          let layerNames = [];
-          for(const url of urls) {
-            requests.push(axios.get(url));
-            layerNames.push(serie?.name ?? 'untitled')
-          }
-
-          setLayerNames(layerNames);
-          fetchData(requests);
+          const res = responsePromises.filter(result => result.status === 'fulfilled' && result.value.status !== 404)
+            .map((result, index) => {
+              if (result.status === 'fulfilled') {
+                const axiosResponse = result.value;
+                if (axiosResponse.status !== 404) {
+                  return axiosResponse;
+                }
+              }
+              return null;
+            }).filter(Boolean);
+            if (unsuccessful > 0){
+              layers.splice(-1 * unsuccessful);
+            }
+          allLayers.push(...layers);
+          allRes.push(...res);
         }
-        else {
+        setResponses(allRes);
+        setLayerNames(allLayers);
+      }
+
+      const yamls = [];
+      const layers = [];
+      for (const serie of data.series) {
+        // static data source
+        let urls = [];
+        for (const field of serie.fields) {
+          if (field.name === 'yaml_file_url') {
+            urls = field.values;
+          }
+        }
+        if (urls && urls.length > 0 && urls[0] !== '') {
+          yamls.push(urls[0]);
+        }
+        layers.push(serie?.name);
+      }
+      
+      setYamlUrls(yamls);
+      fetchData(yamls, layers);
+      const savedDs = JSON.parse(localStorage.getItem('xmlDataStructure') ?? '{}');
+      drawPalindrome(savedDs, container);
+      
+      if ((document.getElementById('readOnlyDs') as HTMLInputElement)) {
+        (document.getElementById('readOnlyDs') as HTMLInputElement).value = JSON.stringify(savedDs, null, 2);
+      }
+    }
+    else {
+      let i = 0;
+      if (data.series.length > 0) {
+        for (const serie of data.series) {
           let executedQueryString = serie.meta?.executedQueryString;
           if (!serie.meta) {
             executedQueryString = (data.request?.targets[i] as any).target;
@@ -100,25 +152,15 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
             }
           }
           i++;
+  
         }
-      }
-      if ((document.getElementById('readOnlyDs') as HTMLInputElement)) {
-        (document.getElementById('readOnlyDs') as HTMLInputElement).value = JSON.stringify(dataStructure, null, 2);
-      }
-    }
-    const container = document.createElement('div');
-    container.setAttribute('id', 'palindrome');
-
-    if (Object.keys(xmlDs).length > 0) {
-      drawPalindrome(xmlDs, container);
-      if ((document.getElementById('readOnlyDs') as HTMLInputElement)) {
-        (document.getElementById('readOnlyDs') as HTMLInputElement).value = JSON.stringify(xmlDs, null, 2);
+  
+        if ((document.getElementById('readOnlyDs') as HTMLInputElement)) {
+          (document.getElementById('readOnlyDs') as HTMLInputElement).value = JSON.stringify(dataStructure, null, 2);
+        }
+        drawPalindrome(dataStructure, container);      
       }
     }
-    else {
-      drawPalindrome(dataStructure, container);
-    }
-
     return () => {
       setTimeout(() => {
         if (canvasRef.current) {
@@ -129,7 +171,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.series, height, width, options.palindromeConfig, refresh]);
+  }, [data.series, height, width, options.palindromeConfig, xmlDs]);
 
 
   const drawPalindrome = (dataStructure: any, container: any) => {
@@ -194,7 +236,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
 
   const convertXMLResponsesToJSON = (responses: any) => {
     const jsonResponses = [];
-    for(const response of responses) {
+    for (const response of responses) {
       const { data } = response;
       jsonResponses.push(JSON.parse(convert.xml2json(data, { compact: true })));
 
@@ -203,7 +245,6 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
   };
 
   const builDataStructureFromXMLData = (responses: any) => {
-    console.log("setting up xmlDs...")
     const jsonResponses = convertXMLResponsesToJSON(responses);
     let i = 0;
     for (const jsonResponse of jsonResponses) {
@@ -220,22 +261,22 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       }
       const objectId = jsonResponse.LWM2M.Object.ObjectID._text;
       const resources = jsonResponse.LWM2M.Object.Resources.Item;
-      
+
       const current = {
-        id:'',
-        name:'Sensor Value'
+        id: '',
+        name: 'Sensor Value'
       }
       const min = {
-        id:'',
-        name:'Min Range Value'
+        id: '',
+        name: 'Min Range Value'
       }
       const max = {
-        id:'',
-        name:'Max Range Value'
+        id: '',
+        name: 'Max Range Value'
       }
       const med = {
-        id:'not handled => (min+max)/2',
-        name:'not handled => (min+max)/2'
+        id: 'not handled => (min+max)/2',
+        name: 'not handled => (min+max)/2'
       };
 
       const unit = {
@@ -244,24 +285,24 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       };
 
       for (const r of resources) {
-        if(r.Name._text === current.name) {
+        if (r.Name._text === current.name) {
           current.id = r._attributes.ID;
         }
-        if(r.Name._text === min.name) {
+        if (r.Name._text === min.name) {
           min.id = r._attributes.ID;
         }
-        if(r.Name._text === max.name) {
+        if (r.Name._text === max.name) {
           max.id = r._attributes.ID;
         }
-        if(r.Name._text === unit.name) {
+        if (r.Name._text === unit.name) {
           unit.id = r._attributes.ID;
         }
 
       }
 
-      const minValue = 10;
-      const maxValue = 100;
-      const currentValue = 50;
+      const minValue = Math.floor(Math.random() * 100); // Random number between 0 and 99
+      const maxValue = Math.floor(Math.random() * (100 - minValue)) + minValue + 1; // Random number between min+1 and 100
+      const currentValue = Math.floor(Math.random() * (maxValue - minValue - 1)) + minValue + 1; // Random number between min+1 and max-1
       const medValue = (minValue + maxValue) / 2;
       const unitValue = 'unit';
 
@@ -280,7 +321,6 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       xmlDataStructure[layerName]["layer"] = {};
       xmlDataStructure[layerName]["layer"][`${layerName}-layer`] = {};
       xmlDataStructure[layerName]["layer"][`${layerName}-layer`]['label'] = layerName;
-
       i++;
     }
     // 
@@ -288,18 +328,54 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
     return xmlDataStructure;
   };
 
-  if (responses.length > 0 && Object.keys(xmlDs).length === 0) {
-    // axios.get("https://reqres.in/api/products/3").then(res => {
-    //   console.log(res.data);
-    //   const xmlDataStructure = builDataStructureFromXMLData(responses);
-    //   setXmlDs(xmlDataStructure);
-    //   setRefresh(true);
-    // });
-      const xmlDataStructure = builDataStructureFromXMLData(responses);
-      setXmlDs(xmlDataStructure);
-      setRefresh(true);
+  const checkChange = (layerNames: any, yamlUrls: any) => {
+    const storedLayerNames = JSON.parse(localStorage.getItem('layerNames') as any);
+    const storedYamlUrls = JSON.parse(localStorage.getItem('yamlUrls') as any);
+    if (storedYamlUrls === null && storedLayerNames === null) {
+      return true;
+    }
+
+    if (storedLayerNames.length > 0 && storedYamlUrls.length > 0) {
+      if (layerNames.length !== storedLayerNames.length) {
+        return true;
+      }
+
+      if (yamlUrls.length !== storedYamlUrls.length) {
+        return true;
+      }
+
+      for (const layer of storedLayerNames) {
+        if (!layerNames.includes(layer)) {
+          return true;
+        }
+      }
+
+      for (const yamlUrl of storedYamlUrls) {
+        if (!yamlUrls.includes(yamlUrl)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+    return null;
   }
 
+  // required for live updates
+  if (responses.length > 0) {
+    const xmlDataStructure = builDataStructureFromXMLData(responses);
+    localStorage.setItem('xmlDataStructure', JSON.stringify(xmlDataStructure));
+  }
+  
+  // required for panel live edit
+  if (layerNames.length > 0 && yamlUrls.length > 0 && checkChange(layerNames, yamlUrls)) {
+    localStorage.setItem('layerNames', JSON.stringify(layerNames));
+    localStorage.setItem('yamlUrls', JSON.stringify(yamlUrls));
+    const xmlDataStructure = builDataStructureFromXMLData(responses);
+    localStorage.setItem('xmlDataStructure', JSON.stringify(xmlDataStructure));
+    setResponses([]);
+    setXmlDs(xmlDataStructure);
+  }
 
   return (
     <>

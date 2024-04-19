@@ -47,11 +47,10 @@
             "fields": [
               {
                 "config": {},
-                "name": "xml_metric_url",
+                "name": "yaml_file_url",
                 "type": "string",
                 "values": [
-                  "https://raw.githubusercontent.com/OpenMobileAlliance/lwm2m-registry/prod/3303.xml",
-                  "https://raw.githubusercontent.com/OpenMobileAlliance/lwm2m-registry/prod/3304.xml"
+                  "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-lwm2m/-/raw/main/TEST/D001/application-registration.yaml"
                 ]
               }
             ],
@@ -59,6 +58,28 @@
             "name": "temperature-humidity"
           },
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "yaml_file_url",
+                "type": "string",
+                "values": [
+                  "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-lwm2m/-/raw/main/TEST/D003/application-registration.yaml"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "layer 2"
+          },
+          "hide": false,
+          "refId": "B"
         }
       ],
       "title": "Palindrome.js ",
