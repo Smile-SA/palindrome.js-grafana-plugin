@@ -3,11 +3,15 @@ import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import { config } from "@grafana/runtime";
 import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js';
+import { useTheme } from '@grafana/ui';
+
 interface Props extends PanelProps<SimpleOptions> { }
 
 export const PalindromePanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
+  const theme = useTheme();
   const [ds, setDs] = useState<any>({});
   const canvasRef = useRef<any>(null);
+  const grafanaVersion = (window as any)?.grafanaBootData?.settings?.buildInfo?.version?.split('.')[0];
 
   let dataStructure = {} as any;
   let configuration = {} as any;
@@ -19,6 +23,9 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         let executedQueryString = serie.meta?.executedQueryString;
         if (!serie.meta) {
           executedQueryString = (data.request?.targets[i] as any).target;
+        }
+        if (grafanaVersion && parseInt(grafanaVersion, 10) < 10) {
+          executedQueryString = (data.request?.targets[i] as any).expr;
         }
         const regex = /(?:#|\/\/)layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
         const match = executedQueryString?.match(regex);
@@ -38,7 +45,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         for (const field of serie.fields) {
           if (field.name !== 'Time') {
             const unit = "";
-            const value = field?.values[field?.values.length - 1] ?? field?.values[field?.values.length - 2];
+            const value = field?.state?.calcs?.last;
             if (field.name !== "Value") {
               metricName = serie.name ? serie.name + ' - ' + (field.labels ? (Object.values(field.labels)[0] ? Object.values(field.labels)[0] : field.name) : field.name) : field.name;
             }
@@ -90,18 +97,36 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       configuration.innerWidth = width;
       configuration.grafanaZoom = 1.5;
 
-      if (config.theme2.isDark) {
-        configuration.isDarkGrafana = true;
-        configuration.grafanaColor = config.theme2.colors.background.primary;
-        configuration.frameLineColor = "#FFFFFF";
-        configuration.metricsLabelsColor = "#ccccdc";
+      if (grafanaVersion && parseInt(grafanaVersion, 10) < 10) {
+        if (theme.isDark) {
+          configuration.isDarkGrafana = true;
+          configuration.grafanaColor = theme.colors.bg1;
+          configuration.frameLineColor = "#FFFFFF";
+          configuration.metricsLabelsColor = "#ccccdc";
+        }
+        else {
+          delete configuration.isDarkGrafana;
+          delete configuration.grafanaColor;
+          configuration.frameLineColor = "#000000";
+          delete configuration.metricsLabelsColor;
+        }
+        
       }
-      else {
-        delete configuration.isDarkGrafana;
-        delete configuration.grafanaColor;
-        configuration.frameLineColor = "#000000";
-        delete configuration.metricsLabelsColor;
+      if (grafanaVersion && parseInt(grafanaVersion, 10) >= 10) {
+        if (config.theme2.isDark) {
+          configuration.isDarkGrafana = true;
+          configuration.grafanaColor = config.theme2.colors.background.primary;
+          configuration.frameLineColor = "#FFFFFF";
+          configuration.metricsLabelsColor = "#ccccdc";
+        }
+        else {
+          delete configuration.isDarkGrafana;
+          delete configuration.grafanaColor;
+          configuration.frameLineColor = "#000000";
+          delete configuration.metricsLabelsColor;
+        }
       }
+
       const configDeepCopied = JSON.parse(JSON.stringify(configuration));
       delete configDeepCopied.data;
       setPalindromeConfig(JSON.stringify(configDeepCopied, null, 2));
