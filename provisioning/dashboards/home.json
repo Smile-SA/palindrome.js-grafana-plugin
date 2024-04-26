@@ -35,7 +35,7 @@
       },
       "id": 4,
       "options": {
-        "palindromeConfig": "{\n  \"colorsBehavior\": \"dynamic\",\n  \"colorsDynamicDepth\": 100,\n  \"statusColorLow\": \"#319b31\",\n  \"statusColorMed\": \"#f3c60a\",\n  \"statusColorHigh\": \"#FF0000\",\n  \"spheresColorsBehavior\": \"dynamic\",\n  \"sphereColorLow\": \"#319b31\",\n  \"sphereColorMed\": \"#f3c60a\",\n  \"sphereColorHigh\": \"#FF0000\",\n  \"bicolorDisplay\": false,\n  \"transparentDisplay\": false,\n  \"transparencyHigh\": 1,\n  \"transparencyMed\": 0.5,\n  \"transparencyLow\": 0,\n  \"mainStaticColor\": \"#f3c60a\",\n  \"displayArea\": \"palindrome\",\n  \"palindromeSize\": 3,\n  \"cameraOptions\": [\n    \"Fit\"\n  ],\n  \"metricMagnifier\": 10,\n  \"layerDisplayMode\": \"dynamic\",\n  \"displayLayers\": true,\n  \"lineOpacity\": 1,\n  \"lineWidth\": 0.5,\n  \"lineColor\": \"#000000\",\n  \"displayMode\": \"dynamic\",\n  \"displaySides\": true,\n  \"gridSize\": 100,\n  \"gridDivisions\": 100,\n  \"displayGrid\": false,\n  \"zPlaneInitial\": 0,\n  \"zPlaneHeight\": 40,\n  \"zPlaneMultilayer\": 20,\n  \"metricsLabelsRenderingMode\": \"3D\",\n  \"metricsLabels3DRenderingMode\": \"Canvas\",\n  \"metricsLabelsRenderingFormat\": \"Text\",\n  \"metricsLabelsStructure\": [\n    \"Name\",\n    \"Type\",\n    \"Value\",\n    \"Unit\",\n    \"State\"\n  ],\n  \"metricsLabelsCharacterFont\": \"Arial\",\n  \"metricsLabelsSize\": 15,\n  \"metricsLabelsColor\": \"#ccccdc\",\n  \"metricsLabelsBackground\": \"#f0f0f0\",\n  \"metricsLabelsBold\": true,\n  \"metricsLabelsItalic\": false,\n  \"displayMetricsLabels\": true,\n  \"displayAllMetricsLabels\": false,\n  \"displayMetricSpheres\": true,\n  \"displayValuesOnSphereHover\": false,\n  \"layersLabelsRenderingMode\": \"3D\",\n  \"layersLabelsOrientation\": \"Sticky\",\n  \"layersLabelsCharacterFont\": \"Arial\",\n  \"layersLabelsSize\": 15,\n  \"layersLabelsColor\": \"#000000\",\n  \"layersLabelsBackground\": \"#ffffff\",\n  \"layersLabelsBold\": true,\n  \"layersLabelsItalic\": false,\n  \"displayLayersLines\": false,\n  \"displayLayersLabels\": true,\n  \"frameShape\": \"Rectangle\",\n  \"animateFrameDashedLine\": false,\n  \"frameBackgroundColor\": \"#ffffff\",\n  \"frameOpacity\": 0.5,\n  \"framePadding\": 2,\n  \"frameLineColor\": \"#FFFFFF\",\n  \"frameLineWidth\": 1,\n  \"frameDashLineSize\": 3,\n  \"displayFrames\": true,\n  \"displayFramesLine\": true,\n  \"displayFramesBackground\": false,\n  \"displayMetricsLabelsUnit\": true,\n  \"displayLabelLine\": true,\n  \"statusRangeLow\": 0,\n  \"statusRangeMed\": 33,\n  \"statusRangeHigh\": 66,\n  \"mockupData\": false,\n  \"liveData\": false,\n  \"webWorkersRendering\": false,\n  \"webWorkersHTTP\": false,\n  \"resourcesLevel\": 50,\n  \"sideLabelDisplay\": false,\n  \"rotatedMetricsAngle\": 0,\n  \"mergedMetricsNames\": false,\n  \"remoteDataFetchPace\": 1000,\n  \"layerMetricsUnits\": \"absolute\",\n  \"equalizeFrameLinks\": false,\n  \"labelToFrameLinkLength\": 40,\n  \"labelToFrameLinkType\": \"dynamic\",\n  \"negativeValuesMagnifier\": 2,\n  \"isGrafana\": true,\n  \"innerHeight\": 246,\n  \"innerWidth\": 922,\n  \"grafanaZoom\": 1.5,\n  \"isDarkGrafana\": true,\n  \"grafanaColor\": \"#181b1f\"\n}"
+        "palindromeConfig": "{\n  \"colorsBehavior\": \"dynamic\",\n  \"colorsDynamicDepth\": 100,\n  \"statusColorLow\": \"#319b31\",\n  \"statusColorMed\": \"#f3c60a\",\n  \"statusColorHigh\": \"#FF0000\",\n  \"spheresColorsBehavior\": \"dynamic\",\n  \"sphereColorLow\": \"#319b31\",\n  \"sphereColorMed\": \"#f3c60a\",\n  \"sphereColorHigh\": \"#FF0000\",\n  \"bicolorDisplay\": false,\n  \"transparentDisplay\": false,\n  \"transparencyHigh\": 1,\n  \"transparencyMed\": 0.5,\n  \"transparencyLow\": 0,\n  \"mainStaticColor\": \"#f3c60a\",\n  \"displayArea\": \"palindrome\",\n  \"palindromeSize\": 3,\n  \"cameraOptions\": [\n    \"Fit\"\n  ],\n  \"metricMagnifier\": 10,\n  \"layerDisplayMode\": \"dynamic\",\n  \"displayLayers\": true,\n  \"lineOpacity\": 1,\n  \"lineWidth\": 0.5,\n  \"lineColor\": \"#000000\",\n  \"displayMode\": \"dynamic\",\n  \"displaySides\": true,\n  \"gridSize\": 100,\n  \"gridDivisions\": 100,\n  \"displayGrid\": false,\n  \"zPlaneInitial\": 0,\n  \"zPlaneHeight\": 40,\n  \"zPlaneMultilayer\": 20,\n  \"metricsLabelsRenderingMode\": \"3D\",\n  \"metricsLabels3DRenderingMode\": \"Canvas\",\n  \"metricsLabelsRenderingFormat\": \"Text\",\n  \"metricsLabelsStructure\": [\n    \"Name\",\n    \"Type\",\n    \"Value\",\n    \"Unit\",\n    \"State\"\n  ],\n  \"metricsLabelsCharacterFont\": \"Arial\",\n  \"metricsLabelsSize\": 15,\n  \"metricsLabelsColor\": \"#ccccdc\",\n  \"metricsLabelsBackground\": \"#f0f0f0\",\n  \"metricsLabelsBold\": true,\n  \"metricsLabelsItalic\": false,\n  \"displayMetricsLabels\": true,\n  \"displayAllMetricsLabels\": false,\n  \"displayMetricSpheres\": true,\n  \"displayValuesOnSphereHover\": false,\n  \"layersLabelsRenderingMode\": \"3D\",\n  \"layersLabelsOrientation\": \"Sticky\",\n  \"layersLabelsCharacterFont\": \"Arial\",\n  \"layersLabelsSize\": 15,\n  \"layersLabelsColor\": \"#000000\",\n  \"layersLabelsBackground\": \"#ffffff\",\n  \"layersLabelsBold\": true,\n  \"layersLabelsItalic\": false,\n  \"displayLayersLines\": false,\n  \"displayLayersLabels\": true,\n  \"frameShape\": \"Rectangle\",\n  \"animateFrameDashedLine\": false,\n  \"frameBackgroundColor\": \"#ffffff\",\n  \"frameOpacity\": 0.5,\n  \"framePadding\": 2,\n  \"frameLineColor\": \"#FFFFFF\",\n  \"frameLineWidth\": 1,\n  \"frameDashLineSize\": 3,\n  \"displayFrames\": true,\n  \"displayFramesLine\": true,\n  \"displayFramesBackground\": false,\n  \"displayMetricsLabelsUnit\": true,\n  \"displayLabelLine\": true,\n  \"statusRangeLow\": 0,\n  \"statusRangeMed\": 33,\n  \"statusRangeHigh\": 66,\n  \"mockupData\": false,\n  \"liveData\": false,\n  \"webWorkersRendering\": false,\n  \"webWorkersHTTP\": false,\n  \"resourcesLevel\": 50,\n  \"sideLabelDisplay\": false,\n  \"rotatedMetricsAngle\": 0,\n  \"mergedMetricsNames\": false,\n  \"remoteDataFetchPace\": 1000,\n  \"layerMetricsUnits\": \"absolute\",\n  \"equalizeFrameLinks\": false,\n  \"labelToFrameLinkLength\": 40,\n  \"labelToFrameLinkType\": \"dynamic\",\n  \"negativeValuesMagnifier\": 2,\n  \"isGrafana\": true,\n  \"innerHeight\": 474,\n  \"innerWidth\": 1870,\n  \"grafanaZoom\": 1.5,\n  \"isDarkGrafana\": true,\n  \"grafanaColor\": \"#181b1f\"\n}"
       },
       "targets": [
         {
@@ -55,7 +55,7 @@
               }
             ],
             "meta": {},
-            "name": "temperature-humidity"
+            "name": "yamlLayer1"
           },
           "refId": "A"
         },
@@ -76,10 +76,32 @@
               }
             ],
             "meta": {},
-            "name": "layer 2"
+            "name": "yamlLayer2"
           },
           "hide": false,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "json_file_url",
+                "type": "string",
+                "values": [
+                  "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-wot/-/raw/main/examples/cli/coffee-machine-td.json"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "jsonLayer1"
+          },
+          "hide": false,
+          "refId": "C"
         }
       ],
       "title": "Palindrome.js ",
