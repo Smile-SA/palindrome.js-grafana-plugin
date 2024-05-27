@@ -16,6 +16,11 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
   let dataStructure = {} as any;
   let configuration = {} as any;
 
+  /**
+   * Builds Palindrome data structure
+   * @param data panel data
+   * @param dataStructure data structure object to build
+   */
   const buildDataStructure = (data: any, dataStructure: any) => {
     let i = 0;
     for (const serie of data.series) {
@@ -78,6 +83,39 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
     }
   };
 
+  /**
+   * Adds additional properties to the configuration
+   * @param configuration Palindrome configuration
+   */
+  const customizeConfiguration = (configuration: any) => {
+    configuration.data = dataStructure;
+    configuration.displayGrid = false;
+    configuration.isGrafana = true;
+    configuration.innerHeight = height;
+    configuration.innerWidth = width;
+    configuration.grafanaZoom = 1.5;
+    configuration.disableZoom = true;
+
+    if (config.theme2.isDark) {
+      configuration.isDarkGrafana = true;
+      configuration.grafanaColor = config.theme2.colors.background.primary;
+      configuration.frameLineColor = "#FFFFFF";
+      configuration.metricsLabelsColor = "#ccccdc";
+    }
+    else {
+      delete configuration.isDarkGrafana;
+      delete configuration.grafanaColor;
+      configuration.frameLineColor = "#000000";
+      delete configuration.metricsLabelsColor;
+    }
+  };
+
+  /**
+   * Applies configuration from options to the real Palindrome configuration
+   * @param configurationInput configuration from options
+   * @param configurationOutput Palindrome configuration
+   * @returns 
+   */
   const applyCustomConfig = (configurationInput: any, configurationOutput: any) => {
     const parsedJson = JSON.parse(configurationInput);
     for (const [key, value] of Object.entries(parsedJson)) {
@@ -93,44 +131,27 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
 
     if (Object.keys(dataStructure).length > 0) {
       setDs(dataStructure);
-
       const { palindromeConfig } = options;
       // eslint-disable-next-line react-hooks/exhaustive-deps
       configuration = devPalindrome(true);
-      
       if (palindromeConfig?.length > 0) {
         configuration = applyCustomConfig(palindromeConfig, configuration);
       }
-      configuration.data = dataStructure;
-      configuration.displayGrid = false;
-      configuration.isGrafana = true;
-      configuration.innerHeight = height;
-      configuration.innerWidth = width;
-      configuration.grafanaZoom = 1.5;
-      configuration.disableZoom = true;
-
-      if (config.theme2.isDark) {
-        configuration.isDarkGrafana = true;
-        configuration.grafanaColor = config.theme2.colors.background.primary;
-        configuration.frameLineColor = "#FFFFFF";
-        configuration.metricsLabelsColor = "#ccccdc";
-      }
-      else {
-        delete configuration.isDarkGrafana;
-        delete configuration.grafanaColor;
-        configuration.frameLineColor = "#000000";
-        delete configuration.metricsLabelsColor;
-      }
+      
+      customizeConfiguration(configuration);
       const configDeepCopied = JSON.parse(JSON.stringify(configuration));
       delete configDeepCopied.data;
+
       onOptionsChange({
         ...options,
         palindromeConfig: JSON.stringify(configDeepCopied, null, 2),
         palindromeDs: JSON.stringify(dataStructure, null, 2),
       });
 
+      // required additional configuration
       configuration.keepControls = true;
       configuration.panelId = data.request?.panelId;
+
       if (containerRef.current) {
         palindrome(containerRef.current, { ...configuration });
       }
