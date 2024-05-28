@@ -93,7 +93,7 @@
                 "name": "json_file_url",
                 "type": "string",
                 "values": [
-                  "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-wot/-/raw/main/examples/cli/coffee-machine-td.json"
+                  "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-wot/-/raw/main/examples/quickstart/td.json"
                 ]
               }
             ],
