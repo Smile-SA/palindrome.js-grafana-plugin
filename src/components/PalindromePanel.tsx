@@ -12,6 +12,7 @@ interface Props extends PanelProps<SimpleOptions> { }
 export const PalindromePanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
   const [ds, setDs] = useState<any>({});
   const containerRef = useRef<any>(null);
+  const renderingLoop = useRef<any>(null);
 
   let dataStructure = {} as any;
   let configuration = {} as any;
@@ -153,15 +154,22 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       configuration.panelId = data.request?.panelId;
 
       if (containerRef.current) {
-        palindrome(containerRef.current, { ...configuration });
+        if (containerRef.current.children.length === 0){
+          const renderingLoopFn = palindrome(containerRef.current, { ...configuration });
+          renderingLoop.current = renderingLoopFn;
+        }
+        else {
+          renderingLoop.current.updateGrafanaData({ ...configuration });
+        }
       }
     }
   }, [data.series, height, width, options.palindromeConfig]);
 
   return (
     <>
-      {!(Object.keys(ds).length > 0) && <h6 id='info-metrics' style={{ color: 'red' }}>Please choose your metrics from Prometheus data source.</h6>}
-      {!(Object.keys(ds).length > 0) && <h6 id='info-query' style={{ color: 'red' }}><b>Query example:</b> node_procs_running #layer: serverMetrics, ranges: [0, 5, 100].</h6>}
+      {!(Object.keys(ds).length > 0) && <h6 id='info-metrics' style={{ color: config.theme2.colors.error.main }}>Please choose your metrics from Prometheus data source.</h6>}
+      {!(Object.keys(ds).length > 0) && <h6 id='info-query' style={{ color: config.theme2.colors.error.main}}><b>Query example:</b> node_procs_running #layer: serverMetrics, ranges: [0, 5, 100].</h6>}
+      {(Object.keys(ds).length > 0) && <h6 style={{ color: config.theme2.colors.info.main }}> Please press Ctrl + scroll to zoom in and out.</h6>}
       {(Object.keys(ds).length > 0) && <div ref={containerRef}></div>}
     </>
   );
