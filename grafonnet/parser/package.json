@@ -1,0 +1,19 @@
+{
+  "name": "parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "grafanaParser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.33.2",
+    "@influxdata/influxdb-client-apis": "^1.33.2",
+    "axios": "^1.7.2",
+    "xml-js": "^1.6.11",
+    "yaml": "^2.4.2"
+  }
+}

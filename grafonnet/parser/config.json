@@ -1,0 +1,6 @@
+{
+    "files": [
+        { "layerName": "yamlLayer1", "url": "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-lwm2m/-/raw/main/TEST/D001/application-registration.yaml" },
+        { "layerName": "yamlLayer2", "url": "https://gitlab.eclipse.org/eclipse-research-labs/nephele-project/vo-lwm2m/-/raw/main/TEST/D003/application-registration.yaml" }
+    ]
+}

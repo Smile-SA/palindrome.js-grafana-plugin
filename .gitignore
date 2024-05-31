@@ -35,3 +35,4 @@ e2e-results/
 .eslintcache
 
 **/prometheus-data/*
+**/vendor/**
