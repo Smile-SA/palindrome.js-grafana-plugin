@@ -1,6 +1,7 @@
 import { e2e } from '@grafana/e2e';
 
-import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js'
+// import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js'
+import palindrome, { devPalindrome } from '../../node_modules/@smile/palindrome.js/src/index.js';
 
 describe('Palindrome.js lib integration', () => {
 
