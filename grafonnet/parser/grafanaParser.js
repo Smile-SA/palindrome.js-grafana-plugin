@@ -3,6 +3,7 @@ const YAML = require('yaml');
 const convert = require('xml-js');
 const fs = require('fs');
 const config = require('./config.json');
+require('dotenv').config();
 
 const { InfluxDB } = require('@influxdata/influxdb-client');
 const url = process.env.INFLUX_URL
