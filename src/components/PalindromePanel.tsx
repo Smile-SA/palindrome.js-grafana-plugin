@@ -2,10 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import { config } from "@grafana/runtime";
-// import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js';
-
-// @ts-ignore
-import palindrome, { devPalindrome } from '../../node_modules/@smile/palindrome.js/src/index.js';
+import palindrome, { devPalindrome } from '@smile/palindrome.js/src/index.js';
 
 interface Props extends PanelProps<SimpleOptions> { }
 
@@ -14,6 +11,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
   const containerRef = useRef<any>(null);
   const renderingLoop = useRef<any>(null);
   const zoomMessageRef = useRef<any>(null);
+  const dataStructureHistory = useRef<any>(null);
 
   let dataStructure = {} as any;
   let configuration = {} as any;
@@ -32,19 +30,21 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         executedQueryString = (data.request?.targets[i] as any).target;
       }
 
-      const regex = /(?:#|\/\/)layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
+      const regex = /(?:#|\/\/)(?:metricLabel:\s*(.*?),\s*)?layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
       const match = executedQueryString?.match(regex);
-      const parts = executedQueryString?.split(/#|\/\//);
-      let metricName = parts![0].trim().replace('Expr: ', '') || '';
+      const parts = executedQueryString?.split(/#|\/\//);      
+      let metricName, layerName, ranges;
       
-      let layerName, ranges;
+      if (parts) {
+        metricName = parts![0].trim().replace('Expr: ', '') || '';
+      }
 
       if (!match) {
         layerName = 'Untitled';
       }
       else {
-        layerName = match![1];
-        ranges = match![2].split(',').map(Number);
+        layerName = match![2];
+        ranges = match![3].split(',').map(Number);
       }
 
       if (!layerName || !ranges) {
@@ -58,6 +58,8 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
           if (field.name !== "Value") {
             metricName = serie.name ? serie.name + ' - ' + (field.labels ? (Object.values(field.labels)[0] ? Object.values(field.labels)[0] : field.name) : field.name) : field.name;
           }
+
+          metricName = match[1] ?? metricName;
 
           const [min, med, max] = ranges;
           if (!dataStructure[layerName]) {
@@ -130,9 +132,46 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
     return configurationOutput;
   }
 
+  /**
+   * Checks if meta layers and metrics per layers are the same
+   * @param oldDs the old data structure
+   * @param newDs the new data structure
+   * @returns {Boolean}
+   */
+
+  const isMetaDataChanged = (oldDs: any, newDs: any) => {
+    if (!oldDs || !newDs) {
+      return false;
+    }
+
+    const oldLayers = Object.keys(oldDs).sort();
+    const newLayers = Object.keys(newDs).sort();
+    
+    // Checking if layers are the same
+    if (oldLayers.length !== newLayers.length){
+      return true;
+    }
+
+    const isSameLayers = oldLayers.every((value, index) => value === newLayers[index]);
+    if (!isSameLayers) {
+      return true;
+    }
+
+    // Checking if metrics per layer are the same
+    return !oldLayers.every(oldLayer => {
+      const oldMetrics = Object.keys(oldDs[oldLayer].metrics).sort();
+      const newMetrics = Object.keys(newDs[oldLayer].metrics).sort();
+      return oldMetrics.length === newMetrics.length && oldMetrics.every((value, index) => value === newMetrics[index]);
+    });
+
+  }
+
   useEffect(() => {
+    let hasMetaDataChanged = false;
     if (data.series.length > 0) {
       buildDataStructure(data, dataStructure);
+      hasMetaDataChanged = isMetaDataChanged(dataStructure, dataStructureHistory.current);
+      dataStructureHistory.current = dataStructure;
     }
 
     if (Object.keys(dataStructure).length > 0) {
@@ -154,11 +193,13 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
       });
 
       if (containerRef.current) {
-        if (containerRef.current.children.length === 0) {
+        if (hasMetaDataChanged === true || containerRef.current.children.length === 0) {
+          // rendering
           const renderingLoopFn = palindrome(containerRef.current, { ...configuration });
           renderingLoop.current = renderingLoopFn;
         }
         else {
+          // updating data
           renderingLoop.current.updateGrafanaData({ ...configuration });
         }
       }
