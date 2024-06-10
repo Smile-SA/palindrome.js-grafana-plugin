@@ -1,0 +1,17 @@
+stages:
+  - deploy
+
+default:
+  image: ubuntu:22.04
+
+push-dashboard:
+  stage: deploy
+  before_script:
+    - apt update
+    - apt upgrade -y
+  script:
+    - rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
+    - go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+    - export PATH=$PATH:/usr/local/go/bin
+    - go version
+  allow_failure: false
