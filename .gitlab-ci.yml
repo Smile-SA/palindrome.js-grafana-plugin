@@ -25,6 +25,7 @@ push-dashboard:
     - make
     - sudo make install
     - jsonnet --version
+    - cd ..
     - go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
     - export GOPATH=$HOME/go
     - export PATH=$PATH:$GOPATH/bin
