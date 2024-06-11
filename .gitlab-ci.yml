@@ -23,6 +23,8 @@ push-dashboard:
     - node -v
     - apt install -y iputils-ping
     - cd grafonnet
+    - apt install -y git
+    - git --version
     - git clone https://github.com/Microsoft/vcpkg.git
     - cd vcpkg
     - ./bootstrap-vcpkg.sh
