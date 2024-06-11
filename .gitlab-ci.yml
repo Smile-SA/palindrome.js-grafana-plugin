@@ -10,8 +10,22 @@ push-dashboard:
     - apt update
     - apt upgrade -y
   script:
+    - apt install -y wget
+    - wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz
     - rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
-    - go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
     - export PATH=$PATH:/usr/local/go/bin
     - go version
+    - go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+    - apt install -y curl sudo
+    - curl --version
+    - curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    - apt install -y nodejs
+    - node -v
+    - apt install -y iputils-ping
+    - cd grafonnet
+    - cd parser
+    - npm i
+    - ping 10.1.76.20
   allow_failure: false
+  tags:
+    - rndnode1-runner

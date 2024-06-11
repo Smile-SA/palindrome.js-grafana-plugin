@@ -1,8 +1,12 @@
 const { InfluxDB, Point } = require('@influxdata/influxdb-client');
-const url = 'http://localhost:8086'
-const token = 'a84544ff9119033d67535ec9acf22d04246bfd946a0c3e330ecd22615129ffc4'
-const org = 'smile_rnd'
-const bucket = 'Nephele'
+const path = require('path');
+const dotenvPath = path.resolve(__dirname, '.env');
+require('dotenv').config({ path: dotenvPath });
+
+const url = process.env.INFLUX_URL;
+const token = process.env.INFLUX_TOKEN;
+const org = process.env.INFLUX_ORG;
+const bucket = process.env.INFLUX_BUCKET;
 
 /**
  * Instantiate the InfluxDB client
