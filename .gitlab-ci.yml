@@ -15,19 +15,20 @@ push-dashboard:
     - rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
     - export PATH=$PATH:/usr/local/go/bin
     - go version
-    - go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
     - curl --version
     - curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
     - node -v
     - cd grafonnet
     - git --version
-    - git clone https://github.com/Microsoft/vcpkg.git
-    - sleep 10000000
-    - cd vcpkg
-    - ./bootstrap-vcpkg.sh
-    -  ./vcpkg integrate install
-    - ./vcpkg integrate bash
-    - ./vcpkg install jsonnet
+    - git clone https://github.com/google/jsonnet.git
+    - cd jsonnet
+    - make
+    - sudo make install
+    - jsonnet --version
+    - go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+    - export GOPATH=$HOME/go
+    - export PATH=$PATH:$GOPATH/bin
+    - jb install github.com/grafana/grafonnet/gen/grafonnet-latest@main
     - cd parser
     - npm i
     - cd ..
