@@ -17,9 +17,8 @@ push-dashboard:
     - go version
     - curl --version
     - curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-    - sleep 1000000000000
-    - sudo apt -f install -y nodejs
-    
+    - sudo apt-get remove -y libnode-dev
+    - sudo apt install -y nodejs
     - node -v
     - cd grafonnet
     - git --version
