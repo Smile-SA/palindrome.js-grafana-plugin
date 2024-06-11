@@ -23,6 +23,10 @@ push-dashboard:
     - node -v
     - apt install -y iputils-ping
     - cd grafonnet
+    - cd vcpkg
+    - ./bootstrap-vcpkg.sh
+    - ./vcpkg integrate bash
+    - vcpkg install jsonnet
     - cd parser
     - npm i
     - cd ..
