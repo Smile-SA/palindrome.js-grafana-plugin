@@ -25,7 +25,8 @@ push-dashboard:
     - cd grafonnet
     - cd parser
     - npm i
-    - ping 10.1.76.20
+    - cd ..
+    - ./deploy-panel.sh
   allow_failure: false
   tags:
     - rndnode1-runner
