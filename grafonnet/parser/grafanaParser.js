@@ -109,6 +109,21 @@ const timeSeriesPanelTemplate = {
   }
 };
 
+const numberOfObjects = {
+  "collapsed": false,
+  "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+  },
+  "id": 9,
+  "panels": [],
+  "title": "Number of objects: " + YAML_LAYERS.length,
+  "type": "row"
+}
+
+
 const metricLabels = [];
 const timeSeriesQueries = [];
 
@@ -325,7 +340,7 @@ const main = async () => {
   const timeSeriesPanels = [];
   let i = 0;
   let j = 0;
-  let y = 0;
+  let y = 12;
   let id = 2;
   let previousLabels = [];
   for (const target of timeSeriesTargets.targets) {
@@ -355,6 +370,7 @@ const main = async () => {
   }
   writeJsonFile('timeSeries.json', timeSeriesPanels);
   writeJsonFile('targets.json', targets);
+  writeJsonFile('numberOfObjects.json', numberOfObjects);
 }
 
 main();
