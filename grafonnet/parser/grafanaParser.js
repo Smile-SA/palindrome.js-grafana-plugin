@@ -110,6 +110,7 @@ const timeSeriesPanelTemplate = {
 };
 
 const metricLabels = [];
+const timeSeriesQueries = [];
 
 const prepareGetRequests = (urls) => {
   const requests = [];
@@ -284,6 +285,7 @@ const generateQueries = (dbParams) => {
       const objectId = metric.object_id;
       const query = "from(bucket: \"" + bucket + "\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"" + label + "\")\n  |> filter(fn: (r) => r[\"_field\"] == \"" + currentId + "\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"" + objectId + "\")\n  |> last()\n  //layer: " + layerName + ", ranges: [" + min + "," + med + "," + max + "]";
       queries.push(query);
+      timeSeriesQueries.push(query.replace("  |> last()\n", ""));
     }
   }
   return queries;
@@ -319,13 +321,14 @@ const main = async () => {
   await getRangeValues(dbParams);
   const queries = generateQueries(dbParams);
   const targets = buildTargets(queries);
+  const timeSeriesTargets = buildTargets(timeSeriesQueries);
   const timeSeriesPanels = [];
   let i = 0;
   let j = 0;
   let y = 0;
   let id = 2;
   let previousLabels = [];
-  for (const target of targets.targets) {
+  for (const target of timeSeriesTargets.targets) {
     if (previousLabels.includes(metricLabels[j])) {
       j++;
       continue;
