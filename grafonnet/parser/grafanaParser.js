@@ -19,6 +19,98 @@ const YAML_INFO = config.files;
 const YAML_URLS = YAML_INFO.map(it => it.url);
 const YAML_LAYERS = YAML_INFO.map(it => it.layerName);
 
+const timeSeriesPanelTemplate = {
+  "type": "timeseries",
+  "title": "Panel Title",
+  "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 12,
+    "h": 12
+  },
+  "datasource": {
+    "uid": "P5697886F9CA74929",
+    "type": "influxdb"
+  },
+  "id": 2,
+  "targets": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P5697886F9CA74929"
+      },
+      "refId": "A",
+      "query": "from(bucket: \"Nephele\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Temperature\")\n  |> filter(fn: (r) => r[\"_field\"] == \"5700\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"3303\")\n  |> last()\n  //layer: yamlLayer1, ranges: [0,35,70]"
+    }
+  ],
+  "options": {
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "showLegend": true,
+      "displayMode": "list",
+      "placement": "bottom",
+      "calcs": []
+    }
+  },
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "drawStyle": "line",
+        "lineInterpolation": "linear",
+        "barAlignment": 0,
+        "lineWidth": 1,
+        "fillOpacity": 0,
+        "gradientMode": "none",
+        "spanNulls": false,
+        "showPoints": "auto",
+        "pointSize": 5,
+        "stacking": {
+          "mode": "none",
+          "group": "A"
+        },
+        "axisPlacement": "auto",
+        "axisLabel": "",
+        "axisColorMode": "text",
+        "scaleDistribution": {
+          "type": "linear"
+        },
+        "axisCenteredZero": false,
+        "hideFrom": {
+          "tooltip": false,
+          "viz": false,
+          "legend": false
+        },
+        "thresholdsStyle": {
+          "mode": "off"
+        }
+      },
+      "color": {
+        "mode": "palette-classic"
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "value": null,
+            "color": "green"
+          },
+          {
+            "value": 80,
+            "color": "red"
+          }
+        ]
+      }
+    },
+    "overrides": []
+  }
+};
+
+const metricLabels = [];
+
 const prepareGetRequests = (urls) => {
   const requests = [];
   for (const url of urls) {
@@ -187,6 +279,7 @@ const generateQueries = (dbParams) => {
       const max = metric.max_value;
       const med = (min + max) / 2;
       const label = metric.label;
+      metricLabels.push(label)
       const currentId = metric.current_db_data.id;
       const objectId = metric.object_id;
       const query = "from(bucket: \"" + bucket + "\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"" + label + "\")\n  |> filter(fn: (r) => r[\"_field\"] == \"" + currentId + "\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"" + objectId + "\")\n  |> last()\n  //layer: " + layerName + ", ranges: [" + min + "," + med + "," + max + "]";
@@ -226,12 +319,39 @@ const main = async () => {
   await getRangeValues(dbParams);
   const queries = generateQueries(dbParams);
   const targets = buildTargets(queries);
+  const timeSeriesPanels = [];
+  let i = 0;
+  let j = 0;
+  let y = 0;
+  let id = 2;
+  let previousLabels = [];
+  for (const target of targets.targets) {
+    if (previousLabels.includes(metricLabels[j])) {
+      j++;
+      continue;
+    }
+    const panel = JSON.parse(JSON.stringify(timeSeriesPanelTemplate));
+    panel.targets = [];
+    panel.targets.push(target);
+    panel.id = id;
+    id++;
+    if (i % 2 === 0) {
+      panel.gridPos.x = 12;
+      panel.gridPos.y = y;
+    }
+    else {
+      panel.gridPos.x = 0;
+      y += 12;
+      panel.gridPos.y = y;
+    }
+    panel.title = metricLabels[j];
+    timeSeriesPanels.push(panel);
+    previousLabels.push(metricLabels[j]);
+    i++;
+    j++;
+  }
+  writeJsonFile('timeSeries.json', timeSeriesPanels);
   writeJsonFile('targets.json', targets);
 }
 
 main();
-
-
-
-
-
