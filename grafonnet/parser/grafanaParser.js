@@ -23,8 +23,6 @@ const timeSeriesPanelTemplate = {
   "type": "timeseries",
   "title": "Panel Title",
   "gridPos": {
-    "x": 0,
-    "y": 0,
     "w": 12,
     "h": 12
   },
@@ -379,9 +377,22 @@ const main = async () => {
     j++;
   }
 
+  let possibleX = [0, 8, 16];
+  let xCounter = 0;
   for (const timeSerie of timeSeriesPanels) {
+
     if (timeSerie.title === "Temperature") {
       timeSerie.targets[0].query = "from(bucket: \"Nephele\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Temperature\")\n  |> filter(fn: (r) => r[\"_field\"] == \"5700\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"3303\")\n  |> filter(fn: (r) => r[\"id\"] == \"1\" or r[\"id\"] == \"2\")";
+    }
+    else {
+      if (process.env.SINGLE_METRIC_PANEL_SIZES === "SMALL") {
+        timeSerie.gridPos.w = 8;
+        timeSerie.gridPos.x = possibleX[xCounter];
+        if (xCounter === 2) {
+          xCounter = -1;
+        }
+        xCounter ++;
+      }
     }
   }
   writeJsonFile('timeSeries.json', timeSeriesPanels);
