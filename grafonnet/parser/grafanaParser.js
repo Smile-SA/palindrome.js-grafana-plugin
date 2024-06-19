@@ -119,7 +119,7 @@ const numberOfObjects = {
   },
   "id": 9,
   "panels": [],
-  "title": "Number of objects: " + YAML_LAYERS.length,
+  "title": "Number of objects : " + YAML_LAYERS.length,
   "type": "row"
 }
 
@@ -287,6 +287,7 @@ const getRangeValues = async (dbParams) => {
 
 const generateQueries = (dbParams) => {
   const queries = [];
+  let isSeen = true;
   for (const layerName in dbParams) {
     const metrics = dbParams[layerName].metrics;
     for (const metricName in metrics) {
@@ -298,7 +299,16 @@ const generateQueries = (dbParams) => {
       metricLabels.push(label)
       const currentId = metric.current_db_data.id;
       const objectId = metric.object_id;
-      const query = "from(bucket: \"" + bucket + "\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"" + label + "\")\n  |> filter(fn: (r) => r[\"_field\"] == \"" + currentId + "\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"" + objectId + "\")\n  |> last()\n  //layer: " + layerName + ", ranges: [" + min + "," + med + "," + max + "]";
+      query = "from(bucket: \"" + bucket + "\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"" + label + "\")\n  |> filter(fn: (r) => r[\"_field\"] == \"" + currentId + "\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"" + objectId + "\")\n  |> last()\n  //layer: " + layerName + ", ranges: [" + min + "," + med + "," + max + "]";
+      if (metricName === "Temperature") {
+        if (isSeen === true) {
+          isSeen = false;
+          query = "from(bucket: \"Nephele\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Temperature\")\n  |> filter(fn: (r) => r[\"_field\"] == \"5700\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"3303\")\n  |> filter(fn: (r) => r[\"id\"] == \"1\")  \n  |> last()\n  //layer: " + layerName + ", ranges: [0, 100, 200]";
+        }
+        else {
+          query = "from(bucket: \"Nephele\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Temperature\")\n  |> filter(fn: (r) => r[\"_field\"] == \"5700\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"3303\")\n  |> filter(fn: (r) => r[\"id\"] == \"2\")  \n  |> last()\n  //layer: " + layerName + ", ranges: [0, 50, 100]";
+        }
+      }
       queries.push(query);
       timeSeriesQueries.push(query.replace("  |> last()\n", ""));
     }
@@ -367,6 +377,12 @@ const main = async () => {
     previousLabels.push(metricLabels[j]);
     i++;
     j++;
+  }
+
+  for (const timeSerie of timeSeriesPanels) {
+    if (timeSerie.title === "Temperature") {
+      timeSerie.targets[0].query = "from(bucket: \"Nephele\")\n  |> range(start: 0)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Temperature\")\n  |> filter(fn: (r) => r[\"_field\"] == \"5700\")\n  |> filter(fn: (r) => r[\"sensor_id\"] == \"3303\")\n  |> filter(fn: (r) => r[\"id\"] == \"1\" or r[\"id\"] == \"2\")";
+    }
   }
   writeJsonFile('timeSeries.json', timeSeriesPanels);
   writeJsonFile('targets.json', targets);
