@@ -62,16 +62,17 @@ This panel should be connected to one of these supported data sources:
 Once done, you can define layers and metrics using code queries, following this format:
 
 ```
-<query> <comment-sign>layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
+<query> <comment-sign>label: <label>, layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
 ```
 **Notes:**
 - Palindrome.js metadata should be inside a comment section.
 - Comment signs can be `#` or `//`.
+- `label` metadata is optional
 
 **Example for Prometheus data source**:
 
   ```Promql
-  node_disk_io_now{device="nvme0n1"} #layer: systemMetrics, ranges: [0, 50, 100]
+  node_disk_io_now{device="nvme0n1"} #label: ssdMetric, layer: systemMetrics, ranges: [0, 50, 100]
   ```
 
 - Once you've finished typing queries, click on `Run queries`, and the 3D object will appear. 

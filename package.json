@@ -15,7 +15,7 @@
     "server": "docker-compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest"
   },
-  "author": "Smile",
+  "author": "Smile RnD <rnd@smile.fr>",
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.21.4",

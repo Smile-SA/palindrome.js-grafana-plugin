@@ -30,7 +30,7 @@ export const PalindromePanel: React.FC<Props> = ({ options, data, width, height,
         executedQueryString = (data.request?.targets[i] as any).target;
       }
 
-      const regex = /(?:#|\/\/)(?:metricLabel:\s*(.*?),\s*)?layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
+      const regex = /(?:#|\/\/)(?:label:\s*(.*?),\s*)?layer:\s*(.*?),\s*ranges:\s*\[(.*?)\]/;
       const match = executedQueryString?.match(regex);
       const parts = executedQueryString?.split(/#|\/\//);      
       let metricName, layerName, ranges;
