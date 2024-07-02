@@ -3,7 +3,7 @@
 </h1>
 
 
-Visualize Prometheus metrics or other datasources in 3D and in real time with the Grafana Palindrome.js Panel. This panel is based on the [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
+Visualize Prometheus metrics or other datasources in 3D with the Grafana Palindrome.js panel. This panel is based over the SMILE [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
 
 
 <p align="center">
@@ -12,9 +12,11 @@ Visualize Prometheus metrics or other datasources in 3D and in real time with th
     </a>
 </p>
 
-![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/dashboard.png).
+![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/dashboard.png)
 
-## 🎯 Usage
+## 🎯 Features and usage
+Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to *n* metrics. Metrics ranges are described through minimum, median, and maximum values, which are inputs from the user. The current value is obtained from the time series database. The overall Palindrome.js shape and color reflect the current values evolving in their user described ranges. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
+
 This panel should be connected to one of these supported data sources:
 - Prometheus
 - InfluxDB v2
@@ -23,19 +25,20 @@ This panel should be connected to one of these supported data sources:
 Once done, you can define layers and metrics using code queries, following this format:
 
 ```
-<query> <comment-sign>layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
+<query> <comment-sign>label: <label>, layer: <layerName>, ranges: [<min value>, <med value>, <max value>]
 ```
 **Notes:**
 - Palindrome.js metadata should be inside a comment section.
 - Comment signs can be `#` or `//`.
+- `label` metadata is optional
 
 **Example for Prometheus data source**:
 
   ```Promql
-  node_disk_io_now{device="nvme0n1"} #layer: systemMetrics, ranges: [0, 50, 100]
+  node_disk_io_now{device="nvme0n1"} #label: ssdMetric, layer: systemMetrics, ranges: [0, 50, 100]
   ```
 
-- Once you've finished typing queries, click on Run queries, and the 3D object will appear. 
+- Once you've finished typing queries, click on `Run queries`, and the 3D object will appear. 
 
 **Example for InfluxDB v2 data source**:
 
@@ -61,8 +64,13 @@ After setting up queries, two fields will be populated: `Palindrome Data Structu
   - **Palindrome Configuration:** This field displays the current configuration used to display the 3D object. It is editable. For more information, please refer to our [API reference](https://github.com/Smile-SA/palindrome.js/wiki/API-Reference).
 
 
+![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/dashboard.png)
 
-## ⚡ Realtime Palindrome.js (speeded up)
+Palindrome.js is also available in a light theme version.
+
+![Palindrome.js light](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/light-panel.png).
+
+## ⚡ Realtime Palindrome.js
 ![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/realtime.gif)
 
 
@@ -70,7 +78,6 @@ After setting up queries, two fields will be populated: `Palindrome Data Structu
 
 ![Palindrome.js integration in Grafana demo](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/demo.gif)
 
+## 📜 License
 
-Palindrome.js is also available in a light theme version.
-
-![Palindrome.js light](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/light-panel.png).
+This project is licensed under [Apache2.0](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/LICENSE).

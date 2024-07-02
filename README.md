@@ -2,7 +2,7 @@
   Grafana Palindrome.js Panel
 </h1>
 
-Visualize Prometheus metrics or other datasources in 3D with the Grafana Palindrome.js panel. This panel is based over the SMILE[Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
+Visualize Prometheus metrics or other datasources in 3D with the Grafana Palindrome.js panel. This panel is based over the SMILE [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
 
 > Palindrome.js is a three.js based library which provides 3D monitoring for system metrics and KPIs. Metrics are presented as sets within layers, which helps to easily identify relations between metrics, indicators, behaviors or trends for your realtime systems or any other data source. Custom algorithms, visual behaviors, styles and color schemes can easily be modified or added.
 
