@@ -156,7 +156,7 @@
         }
       ],
       "title": "Palindrome.js Influxdb",
-      "type": "palindrome-js-panel"
+      "type": "smile-palindromejs-panel"
     },
     {
       "datasource": {
@@ -261,7 +261,7 @@
         }
       ],
       "title": "Palindrome.js Prometheus",
-      "type": "palindrome-js-panel"
+      "type": "smile-palindromejs-panel"
     },
     {
       "datasource": {
@@ -313,7 +313,7 @@
         }
       ],
       "title": "Palindrome.js Graphite",
-      "type": "palindrome-js-panel"
+      "type": "smile-palindromejs-panel"
     }
   ],
   "refresh": "5s",
