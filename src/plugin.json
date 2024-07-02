@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
   "name": "Palindrome.js",
-  "id": "palindrome-js-panel",
+  "id": "smile-palindromejs-panel",
   "info": {
     "keywords": ["panel"],
     "description": "Palindrome.js Grafana panel",
