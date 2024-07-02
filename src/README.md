@@ -5,14 +5,11 @@
 
 Visualize Prometheus metrics or other datasources in 3D with the Grafana Palindrome.js panel. This panel is based over the SMILE [Palindrome.js](https://github.com/Smile-SA/palindrome.js/) library.
 
-
 <p align="center">
     <a href="https://github.com/Smile-SA/palindrome.js/">
       <img src="https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/Palindrome.js-logo-and-title.jpg" alt="Grafana Palindrome.js Panel" width=350">
     </a>
 </p>
-
-![Palindrome.js integration in Grafana](https://github.com/Smile-SA/palindrome.js-grafana-plugin/raw/main/src/img/dashboard.png)
 
 ## 🎯 Features and usage
 Palindrome.js is composed of layers defined by the user. Each layer can contain from 1 to *n* metrics. Metrics ranges are described through minimum, median, and maximum values, which are inputs from the user. The current value is obtained from the time series database. The overall Palindrome.js shape and color reflect the current values evolving in their user described ranges. For further details, please refer to the Palindrome.js [documentation](https://github.com/Smile-SA/palindrome.js/wiki).
